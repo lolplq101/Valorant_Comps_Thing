@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorant Strat Maker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tungsten:wght@600&family=DIN+Next+W1G:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Using Google Fonts similar to Valorant style (Tungsten is actual but usually paid, using Outfit/Roboto as clean sans-serif alternatives, or Tungsten if available via Google Fonts - it's not, using similar heavy condensed fonts like 'Oswald' or just sticking to Outfit for UI) -->
+    <!-- Let's actually use 'Oswald' for headers as a good free alternative to Tungsten and 'Outfit' for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="logo">VALORANT STRAT MAKER</div>
+            <nav>
+                <button id="view-maps-btn" class="nav-btn active">Maps</button>
+                <button id="view-saved-btn" class="nav-btn">Saved Comps</button>
+                <span id="user-display" class="user-display hidden"></span>
+                <button id="login-btn" class="nav-btn login-btn">Login</button>
+                <button id="logout-btn" class="nav-btn hidden">Logout</button>
+            </nav>
+        </header>
+
+        <main id="main-content">
+            <!-- Dynamic Content Area -->
+            <div id="loading" class="loading-screen">
+                <div class="spinner"></div>
+                <p>Loading Assets...</p>
+            </div>
+            
+            <section id="maps-grid" class="view-section hidden">
+                <!-- Maps will be injected here -->
+            </section>
+
+            <section id="comp-builder" class="view-section hidden">
+                <div class="builder-layout">
+                    <div class="map-stage-container">
+                        <div class="map-header">
+                            <button id="back-to-maps" class="icon-btn">← Back</button>
+                            <h2 id="current-map-name">Map Name</h2>
+                            <div class="comp-actions">
+                                <input type="text" id="comp-name-input" placeholder="Comp Name (e.g. Aggressive Execute)" />
+                                <button id="save-comp-btn" class="primary-btn">Save Comp</button>
+                            </div>
+                        </div>
+                        
+                        <div class="map-visualizer" id="map-visualizer">
+                            <!-- Map Image Background -->
+                            <img id="map-image" src="" alt="Map View" />
+                            
+                            <!-- 5 Agent Slots Overlay -->
+                            <div class="agent-slots-container">
+                                <div class="agent-slot" data-slot-index="0"></div>
+                                <div class="agent-slot" data-slot-index="1"></div>
+                                <div class="agent-slot" data-slot-index="2"></div>
+                                <div class="agent-slot" data-slot-index="3"></div>
+                                <div class="agent-slot" data-slot-index="4"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="strat-notes">
+                            <h3>Strategy Notes</h3>
+                            <textarea id="strat-notes-input" placeholder="Enter strategy details, execute plans, or key utility usage..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="agent-picker-sidebar">
+                        <div class="role-filters">
+                            <button class="role-filter active" data-role="all">All</button>
+                            <button class="role-filter" data-role="Duelist">Duelist</button>
+                            <button class="role-filter" data-role="Initiator">Initiator</button>
+                            <button class="role-filter" data-role="Controller">Controller</button>
+                            <button class="role-filter" data-role="Sentinel">Sentinel</button>
+                        </div>
+                        <div id="agents-grid" class="agents-grid">
+                            <!-- Agents injected here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="saved-comps-view" class="view-section hidden">
+                <h2>Your Saved Comps</h2>
+                <div id="saved-comps-list" class="comps-list">
+                    <!-- Saved comps list -->
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Drag and Drop Polyfill if needed for mobile, but mostly sticking to Click implementation for simpler cross-platform logic first, maybe add DnD later if requested -->
+    <!-- Actually, user requested DnD. I'll implement standard HTML5 DnD logic in app.js -->
+    
+    <!-- Firebase SDKs (using compact CDN for v9) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        
+        // Expose to window for app.js to use (simple global approach for vanilla JS)
+        window.firebaseModules = {
+            initializeApp,
+            getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged,
+            getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, orderBy
+        };
+    </script>
+    <script src="app.js" type="module"></script>
+</body>
+</html>
