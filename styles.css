@@ -326,11 +326,12 @@ input[type="text"]:focus, textarea:focus {
 
 .agents-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Increased min-width */
+    gap: 1.5rem; /* Increased gap */
     overflow-y: auto;
-    padding-right: 0.5rem; /* Scrollbar space */
+    padding-right: 0.5rem; 
     padding-bottom: 2rem;
+    align-content: start; /* Prevents stretching if rows aren't full */
 }
 
 /* Scrollbar styling */
