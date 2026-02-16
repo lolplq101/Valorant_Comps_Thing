@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valorant Strat Maker</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mapban-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Tungsten:wght@600&family=DIN+Next+W1G:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Using Google Fonts similar to Valorant style (Tungsten is actual but usually paid, using Outfit/Roboto as clean sans-serif alternatives, or Tungsten if available via Google Fonts - it's not, using similar heavy condensed fonts like 'Oswald' or just sticking to Outfit for UI) -->
@@ -17,6 +18,7 @@
             <div class="logo">VALORANT STRAT MAKER</div>
             <nav>
                 <button id="view-maps-btn" class="nav-btn active">Maps</button>
+                <button id="view-mapban-btn" class="nav-btn">Map Ban</button>
                 <button id="view-saved-btn" class="nav-btn">Saved Comps</button>
                 <span id="user-display" class="user-display hidden"></span>
                 <button id="login-btn" class="nav-btn login-btn">Login</button>
@@ -82,6 +84,109 @@
                 </div>
             </section>
 
+            <!-- MAP BAN SECTION -->
+            <section id="mapban-view" class="view-section hidden">
+                <!-- Setup Phase -->
+                <div id="mapban-setup" class="mapban-setup">
+                    <h2>Map Ban Setup</h2>
+                    
+                    <div class="setup-card">
+                        <h3>Select Ban Type</h3>
+                        <div class="ban-type-options">
+                            <button class="ban-type-btn active" data-type="all">All Maps</button>
+                            <button class="ban-type-btn" data-type="competitive">Competitive Pool</button>
+                            <button class="ban-type-btn" data-type="custom">Custom Pool</button>
+                        </div>
+                    </div>
+
+                    <div id="custom-map-selector" class="setup-card hidden">
+                        <h3>Select Maps for Custom Pool</h3>
+                        <div id="custom-maps-grid" class="custom-maps-grid">
+                            <!-- Custom map checkboxes -->
+                        </div>
+                    </div>
+
+                    <div class="setup-card">
+                        <h3>Team Names</h3>
+                        <div class="team-inputs">
+                            <input type="text" id="team-a-name" placeholder="Team A" value="Team A" />
+                            <span class="vs-text">VS</span>
+                            <input type="text" id="team-b-name" placeholder="Team B" value="Team B" />
+                        </div>
+                    </div>
+
+                    <button id="start-ban-btn" class="primary-btn large-btn">Start Map Ban</button>
+                </div>
+
+                <!-- Coin Toss Phase -->
+                <div id="mapban-cointoss" class="mapban-cointoss hidden">
+                    <h2>Coin Toss</h2>
+                    <div class="cointoss-container">
+                        <div class="coin" id="coin-flip">
+                            <div class="coin-side heads">HEADS</div>
+                            <div class="coin-side tails">TAILS</div>
+                        </div>
+                        <div class="cointoss-choice">
+                            <p>Which team calls it?</p>
+                            <button class="team-btn" id="call-team-a">Team A</button>
+                            <button class="team-btn" id="call-team-b">Team B</button>
+                        </div>
+                        <div class="cointoss-heads-tails hidden" id="heads-tails-choice">
+                            <p id="calling-team-text">Team A calls:</p>
+                            <button class="choice-btn" data-choice="heads">Heads</button>
+                            <button class="choice-btn" data-choice="tails">Tails</button>
+                        </div>
+                        <div class="cointoss-result hidden" id="cointoss-result">
+                            <p id="result-text"></p>
+                            <div class="turn-choice">
+                                <p id="winner-text">Winner chooses:</p>
+                                <button class="choice-btn" id="go-first">Go First</button>
+                                <button class="choice-btn" id="go-second">Go Second</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ban/Pick Phase -->
+                <div id="mapban-phase" class="mapban-phase hidden">
+                    <div class="mapban-header">
+                        <h2>Map Ban Phase</h2>
+                        <div class="turn-indicator" id="turn-indicator">
+                            <span id="current-turn-team">Team A</span>'s Turn: <span id="current-action">Ban</span>
+                        </div>
+                        <button id="reset-ban-btn" class="icon-btn">Reset</button>
+                    </div>
+
+                    <div id="mapban-maps-grid" class="mapban-maps-grid">
+                        <!-- Map ban cards injected here -->
+                    </div>
+
+                    <div class="ban-summary">
+                        <div class="team-summary">
+                            <h4 id="summary-team-a">Team A</h4>
+                            <div id="team-a-bans" class="bans-list"></div>
+                            <div id="team-a-picks" class="picks-list"></div>
+                        </div>
+                        <div class="team-summary">
+                            <h4 id="summary-team-b">Team B</h4>
+                            <div id="team-b-bans" class="bans-list"></div>
+                            <div id="team-b-picks" class="picks-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Selection Modal -->
+                <div id="side-selection-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <h3 id="side-select-title">Team B chooses side for <span id="picked-map-name"></span></h3>
+                        <div class="side-buttons">
+                            <button class="side-btn attack-btn" data-side="attack">⚔️ Attack</button>
+                            <button class="side-btn defense-btn" data-side="defense">🛡️ Defense</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="saved-comps-view" class="view-section hidden">
                 <h2>Your Saved Comps</h2>
                 <div id="saved-comps-list" class="comps-list">
@@ -107,6 +212,7 @@
             getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, orderBy
         };
     </script>
+    <script src="mapban.js"></script>
     <script src="app.js" type="module"></script>
 </body>
 </html>

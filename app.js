@@ -72,6 +72,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     setupEventListeners();
     setupAuthListener();
+    
+    // Initialize Map Ban system
+    if (typeof initMapBan === 'function') {
+        initMapBan();
+    }
 });
 
 // Auth Logic
@@ -432,8 +437,17 @@ function switchView(viewName) {
     els.mapsGrid.classList.add('hidden');
     els.compBuilder.classList.add('hidden');
     els.savedCompsView.classList.add('hidden');
+    
+    // Hide map ban view
+    const mapBanView = document.getElementById('mapban-view');
+    if (mapBanView) mapBanView.classList.add('hidden');
+    
     els.viewMapsBtn.classList.remove('active');
     els.viewSavedBtn.classList.remove('active');
+    
+    // Remove mapban active if exists
+    const mapBanBtn = document.getElementById('view-mapban-btn');
+    if (mapBanBtn) mapBanBtn.classList.remove('active');
     
     if (viewName === 'maps') {
         els.mapsGrid.classList.remove('hidden');
@@ -441,10 +455,14 @@ function switchView(viewName) {
         state.currentMap = null;
     } else if (viewName === 'builder') {
         els.compBuilder.classList.remove('hidden');
+    } else if (viewName === 'mapban') {
+        if (mapBanView) {
+            mapBanView.classList.remove('hidden');
+            if (mapBanBtn) mapBanBtn.classList.add('active');
+        }
     } else if (viewName === 'saved') {
         if (!state.user) {
              alert("Please login first!");
-             // Optionally stay on current page or allow viewing empty list
         }
         renderSavedComps();
         els.savedCompsView.classList.remove('hidden');
