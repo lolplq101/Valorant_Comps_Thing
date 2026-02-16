@@ -276,6 +276,12 @@ function renderAgentsPicker() {
         const img = document.createElement('img');
         img.src = agent.displayIcon;
         div.appendChild(img);
+        
+        const name = document.createElement('div');
+        name.className = 'agent-card-name';
+        name.innerText = agent.displayName;
+        div.appendChild(name);
+        
         els.agentsGrid.appendChild(div);
     });
 }
