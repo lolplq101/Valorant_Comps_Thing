@@ -24,7 +24,7 @@ const state = {
     currentMap: null,
     currentComp: [null, null, null, null, null], // Array of Agent UUIDs
     savedComps: [], // Now loaded from Firestore
-    filterRole: 'all',
+    filterRole: 'Duelist', // Default to Duelist
     user: null // Current Firebase User
 };
 
