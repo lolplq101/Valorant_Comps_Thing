@@ -232,7 +232,7 @@ function renderMaps() {
         card.onclick = () => openBuilder(map);
         
         const img = document.createElement('img');
-        img.src = map.listViewIcon || map.splash; 
+        img.src = map.splash; // Use high-quality splash image
         img.alt = map.displayName;
         
         const name = document.createElement('div');
