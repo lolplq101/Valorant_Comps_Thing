@@ -479,9 +479,19 @@ input[type="text"]:focus, textarea:focus {
 }
 
 .user-display {
-    color: var(--text-primary);
-    margin-right: 1rem;
+    margin: 0 1.5rem;
+    color: var(--text-secondary);
     font-size: 0.9rem;
-    border-right: 1px solid var(--text-secondary);
-    padding-right: 1rem;
+    font-weight: 500;
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--glass-border);
+}
+
+.app-header nav {
+    display: flex;
+    align-items: center;
+}
+/* UI adjustments for spacing */
+.nav-btn {
+    margin-right: 0.5rem;
 }
