@@ -223,9 +223,9 @@
     background: var(--bg-secondary);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
-    max-width: 800px;
+    max-width: 900px;
     width: 90%;
-    max-height: 80vh;
+    max-height: 85vh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -235,13 +235,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
+    padding: 2rem;
     border-bottom: 1px solid var(--glass-border);
 }
 
 .modal-header h2 {
     font-family: 'Tungsten', sans-serif;
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--text-primary);
     margin: 0;
     letter-spacing: 0.05em;
@@ -250,17 +250,17 @@
 .modal-close {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--text-secondary);
     cursor: pointer;
     padding: 0;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s;
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
 .modal-close:hover {
@@ -270,26 +270,27 @@
 
 .agent-selector-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 1rem;
-    padding: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
     overflow-y: auto;
 }
 
 .agent-selector-card {
-    aspect-ratio: 1;
-    border-radius: 8px;
+    aspect-ratio: 3/4;
+    border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
     border: 2px solid var(--glass-border);
     position: relative;
     transition: all 0.3s;
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .agent-selector-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     border-color: var(--accent-red);
-    box-shadow: 0 6px 15px rgba(255, 70, 85, 0.4);
+    box-shadow: 0 8px 20px rgba(255, 70, 85, 0.5);
 }
 
 .agent-selector-card img {
@@ -303,11 +304,12 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7), transparent);
     color: white;
     text-align: center;
-    padding: 0.5rem;
-    font-size: 0.85rem;
-    font-weight: 600;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
 }

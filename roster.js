@@ -154,8 +154,21 @@ async function saveRoster() {
     }
     
     if (!rosterState.teamName.trim()) {
-        showToast("Please enter a team name!", 'warning');
+        showToast("⚠️ Please enter a team name before saving!", 'warning');
         return;
+    }
+    
+    // Check if at least one player has a name
+    const playersWithNames = rosterState.players.filter(p => p.name.trim());
+    if (playersWithNames.length === 0) {
+        showToast("⚠️ Please enter at least one player name!", 'warning');
+        return;
+    }
+    
+    // Warn if some players are empty
+    const emptyPlayers = rosterState.players.filter(p => !p.name.trim());
+    if (emptyPlayers.length > 0) {
+        showToast(`Note: ${emptyPlayers.length} player(s) have no name`, 'info');
     }
     
     try {
@@ -169,10 +182,10 @@ async function saveRoster() {
             updatedAt: new Date().toISOString()
         });
         
-        showToast('Roster saved!', 'success');
+        showToast('✅ Roster saved successfully!', 'success');
     } catch (e) {
         console.error("Error saving roster: ", e);
-        showToast("Error saving: " + e.message, 'error');
+        showToast("❌ Error saving: " + e.message, 'error');
     }
 }
 
