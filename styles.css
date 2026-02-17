@@ -293,19 +293,20 @@ input[type="text"]:focus, textarea:focus {
 }
 
 .comp-attributes {
-    margin-top: 0.75rem;
-    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    padding: 1rem;
     background: rgba(0, 0, 0, 0.3);
     border-radius: 6px;
     border: 1px solid var(--glass-border);
 }
 
 .attributes-label {
+    display: block;
     font-size: 0.75rem;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-right: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .attributes-list {
@@ -427,6 +428,76 @@ input[type="text"]:focus, textarea:focus {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Toast Notification */
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.toast {
+    background: linear-gradient(135deg, rgba(255, 70, 85, 0.95), rgba(255, 70, 85, 0.85));
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    min-width: 280px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast.success {
+    background: linear-gradient(135deg, rgba(46, 213, 115, 0.95), rgba(39, 174, 96, 0.85));
+}
+
+.toast.error {
+    background: linear-gradient(135deg, rgba(235, 77, 75, 0.95), rgba(214, 48, 49, 0.85));
+}
+
+.toast.info {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.95), rgba(41, 128, 185, 0.85));
+}
+
+.toast-icon {
+    font-size: 1.5rem;
+}
+
+.toast.fade-out {
+    animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {

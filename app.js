@@ -102,6 +102,34 @@ const agentAttributes = {
 // Expose state globally for mapban.js
 window.state = state;
 
+// Toast notification system
+function showToast(message, type = 'success', duration = 3000) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icons = {
+        success: '✓',
+        error: '✗',
+        info: 'ℹ',
+        warning: '⚠'
+    };
+    
+    toast.innerHTML = `
+        <span class="toast-icon">${icons[type] || icons.success}</span>
+        <span>${message}</span>
+    `;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
 // DOM Elements
 const els = {
     app: document.getElementById('app'),
@@ -224,7 +252,7 @@ async function fetchAgents() {
 // Firestore Operations
 async function saveCurrentComp() {
     if (!state.user) {
-        alert("Please Login to save comps!");
+        showToast("Please login to save comps!", 'warning');
         return;
     }
     if (!state.currentMap) return;
@@ -232,7 +260,7 @@ async function saveCurrentComp() {
     // Validate comp (optional: check if at least 1 agent selected?)
     const hasAgent = state.currentComp.some(a => a !== null);
     if(!hasAgent) {
-        alert("Please select at least one agent.");
+        showToast("Please select at least one agent", 'warning');
         return;
     }
 
@@ -255,11 +283,11 @@ async function saveCurrentComp() {
         const userCompsRef = collection(db, "users", state.user.uid, "comps");
         await addDoc(userCompsRef, newComp);
         
-        alert('Composition Saved to Cloud!');
+        showToast('Composition saved to cloud!', 'success');
         await loadCompsFromFirestore(); // Refresh list
     } catch (e) {
         console.error("Error saving doc: ", e);
-        alert("Error saving: " + e.message);
+        showToast("Error saving: " + e.message, 'error');
     } finally {
         els.saveCompBtn.innerText = "Save Comp";
         els.saveCompBtn.disabled = false;
