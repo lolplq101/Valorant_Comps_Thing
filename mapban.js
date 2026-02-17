@@ -253,63 +253,86 @@ function setupBanSequence(goFirst) {
     const first = goFirst ? mapBanState.currentTurn : (mapBanState.currentTurn === 0 ? 1 : 0);
     const second = first === 0 ? 1 : 0;
     
-    // Generate ban/pick sequence based on Best Of format
+    const totalMaps = mapBanState.availableMaps.length;
     let sequence = [];
     
     switch(mapBanState.bestOf) {
-        case 1: // Bo1: Ban-Ban-Ban-Ban-Ban-Ban-Pick (last remaining)
-            sequence = [
-                {type: 'ban', team: first},
-                {type: 'ban', team: second},
-                {type: 'ban', team: first},
-                {type: 'ban', team: second},
-                {type: 'ban', team: first},
-                {type: 'ban', team: second},
-                {type: 'pick', team: first} // Last remaining map
-            ];
+        case 1: // Bo1: Ban all except 1, then pick the last map
+            {
+                const numBans = totalMaps - 1;
+                for (let i = 0; i < numBans; i++) {
+                    sequence.push({type: 'ban', team: i % 2 === 0 ? first : second});
+                }
+                sequence.push({type: 'pick', team: first}); // Pick last remaining
+            }
             break;
             
         case 2: // Bo2: Ban until 2 maps remain, then each team picks one
-            // For 7 maps: 5 bans leave 2 maps, then each team picks one
-            sequence = [
-                {type: 'ban', team: first},
-                {type: 'ban', team: second},
-                {type: 'ban', team: first},
-                {type: 'ban', team: second},
-                {type: 'ban', team: first}, // 5 bans total, 2 maps remain
-                {type: 'pick', team: first}, // Team A picks their map
-                {type: 'pick', team: second} // Team B gets remaining map
-            ];
+            {
+                const numBans = totalMaps - 2;
+                for (let i = 0; i < numBans; i++) {
+                    sequence.push({type: 'ban', team: i % 2 === 0 ? first : second});
+                }
+                sequence.push({type: 'pick', team: first}); // First team picks
+                sequence.push({type: 'pick', team: second}); // Second team picks
+            }
             break;
             
-        case 3: // Bo3: Ban-Ban-Pick-Pick-Ban-Ban-Pick (last remaining)
-            sequence = [
-                {type: 'ban', team: first},
-                {type: 'ban', team: second},
-                {type: 'pick', team: first},
-                {type: 'pick', team: second},
-                {type: 'ban', team: first},
-                {type: 'ban', team: second},
-                {type: 'pick', team: first} // Decider map
-            ];
+        case 3: // Bo3: Ban-Ban, Pick-Pick, Ban-Ban, Pick decider
+            {
+                // Initial bans to reduce pool
+                const initialBans = Math.max(2, totalMaps - 5); // Leave room for 3 picks + 2 final bans
+                const halfInitial = Math.floor(initialBans / 2);
+                
+                // Initial ban phase
+                for (let i = 0; i < halfInitial; i++) {
+                    sequence.push({type: 'ban', team: first});
+                    sequence.push({type: 'ban', team: second});
+                }
+                if (initialBans % 2 === 1) {
+                    sequence.push({type: 'ban', team: first});
+                }
+                
+                // First two picks
+                sequence.push({type: 'pick', team: first});
+                sequence.push({type: 'pick', team: second});
+                
+                // Second ban phase (2 bans)
+                sequence.push({type: 'ban', team: first});
+                sequence.push({type: 'ban', team: second});
+                
+                // Decider pick
+                sequence.push({type: 'pick', team: first});
+            }
             break;
             
-        case 5: // Bo5: Ban-Ban-Pick-Pick-Pick-Pick-Ban-Ban-Pick (last remaining)
-            sequence = [
-                {type: 'ban', team: first},
-                {type: 'ban', team: second},
-                {type: 'pick', team: first},
-                {type: 'pick', team: second},
-                {type: 'pick', team: first},
-                {type: 'pick', team: second},
-                {type: 'ban', team: first},
-                {type: 'ban', team: second},
-                {type: 'pick', team: first} // Decider map
-            ];
+        case 5: // Bo5: Ban-Ban, Pick alternating (5 picks total)
+            {
+                // Initial bans to reduce to manageable pool
+                const numBans = totalMaps - 5;
+                const halfBans = Math.floor(numBans / 2);
+                
+                // Ban phase
+                for (let i = 0; i < halfBans; i++) {
+                    sequence.push({type: 'ban', team: first});
+                    sequence.push({type: 'ban', team: second});
+                }
+                if (numBans % 2 === 1) {
+                    sequence.push({type: 'ban', team: first});
+                }
+                
+                // Pick phase - 5 picks alternating
+                sequence.push({type: 'pick', team: first});
+                sequence.push({type: 'pick', team: second});
+                sequence.push({type: 'pick', team: first});
+                sequence.push({type: 'pick', team: second});
+                sequence.push({type: 'pick', team: first}); // Decider
+            }
             break;
             
         default:
-            sequence = [ // Fallback to Bo3
+            // Fallback to Bo3
+            sequence = [
                 {type: 'ban', team: first},
                 {type: 'ban', team: second},
                 {type: 'pick', team: first},
