@@ -270,9 +270,9 @@
 
 .agent-selector-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: 1.25rem;
-    padding: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 2rem;
+    padding: 2.5rem;
     overflow-y: auto;
     max-height: calc(85vh - 200px);
 }
