@@ -479,6 +479,7 @@ function updateSummary() {
 function resetMapBan() {
     if (!confirm('Reset map ban?')) return;
     
+    // Hide ban phase, show setup
     mapBanEls.banPhase.classList.add('hidden');
     mapBanEls.coinToss.classList.add('hidden');
     mapBanEls.setup.classList.remove('hidden');
@@ -488,15 +489,30 @@ function resetMapBan() {
     mapBanState.banSequence = [];
     mapBanState.currentTurn = 0;
     mapBanState.callingTeam = null;
+    mapBanState.availableMaps = [];
     
-    // Reset UI
+    // Reset coin toss UI
     document.querySelector('.cointoss-choice').classList.remove('hidden');
     mapBanEls.headsTailsChoice.classList.add('hidden');
     mapBanEls.coinTossResult.classList.add('hidden');
     
-    // Reset turn indicator
+    // Reset turn indicator (clear completion message)
     mapBanEls.currentTurnTeam.textContent = 'Team A';
     mapBanEls.currentAction.textContent = 'Ban';
+    mapBanEls.turnIndicator.innerHTML = `<span id="current-turn-team">Team A</span>'s Turn: <span id="current-action">Ban</span>`;
+    
+    // Clear map grid completely
+    mapBanEls.mapBanGrid.innerHTML = '';
+    
+    // Clear side selection modal
+    mapBanEls.sideModal.classList.add('hidden');
+    mapBanEls.sideModal.dataset.mapName = '';
+    
+    // Clear summaries
+    mapBanEls.teamABans.innerHTML = '<em>None</em>';
+    mapBanEls.teamAPicks.innerHTML = '<em>None</em>';
+    mapBanEls.teamBBans.innerHTML = '<em>None</em>';
+    mapBanEls.teamBPicks.innerHTML = '<em>None</em>';
 }
 
 // Export for app.js
