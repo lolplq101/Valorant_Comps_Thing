@@ -60,6 +60,45 @@ const agentCosts = {
     "Veto": { credits: 600, orbs: 7 }
 };
 
+// Agent Attributes System
+const agentAttributes = {
+    // Controllers
+    "Brimstone": ["Smoke", "Molly", "Stun"],
+    "Viper": ["Smoke", "Wall", "Molly", "Debuff"],
+    "Omen": ["Smoke", "Flash", "Teleport"],
+    "Astra": ["Smoke", "Stun", "Slow", "Suppress"],
+    "Harbor": ["Smoke", "Wall", "Slow", "Stun"],
+    "Clove": ["Smoke", "Slow", "Revive"],
+    
+    // Sentinels
+    "Killjoy": ["Trap", "Damage", "Debuff", "Suppress"],
+    "Cypher": ["Trap", "Recon", "Slow"],
+    "Sage": ["Wall", "Slow", "Heal", "Revive"],
+    "Chamber": ["Trap", "Teleport", "Slow"],
+    "Deadlock": ["Trap", "Wall", "Stun"],
+    "Vyse": ["Flash", "Wall", "Slow", "Damage", "Suppress"],
+    
+    // Initiators
+    "Sova": ["Recon", "Damage"],
+    "Breach": ["Flash", "Stun", "Damage"],
+    "Skye": ["Flash", "Heal", "Recon"],
+    "KAY/O": ["Flash", "Molly", "Suppress", "Revive"],
+    "Fade": ["Recon", "Slow", "Debuff"],
+    "Gekko": ["Flash", "Stun", "Recon"],
+    "Tejo": ["Flash", "Damage", "Stun"],
+    "Waylay": ["Trap", "Slow", "Recon"],
+    
+    // Duelists
+    "Phoenix": ["Flash", "Molly", "Wall", "Heal", "Revive"],
+    "Jett": ["Smoke", "Mobility"],
+    "Reyna": ["Flash", "Heal", "Mobility"],
+    "Raze": ["Damage", "Mobility"],
+    "Yoru": ["Flash", "Teleport", "Recon", "Debuff"],
+    "Neon": ["Wall", "Stun", "Mobility"],
+    "Iso": ["Wall", "Debuff", "Suppress"],
+    "Veto": ["Flash", "Damage", "Mobility"]
+};
+
 // Expose state globally for mapban.js
 window.state = state;
 
@@ -90,6 +129,7 @@ const els = {
     stratNotesInput: document.getElementById('strat-notes-input'),
     totalCredits: document.getElementById('total-credits'),
     totalOrbs: document.getElementById('total-orbs'),
+    attributesList: document.getElementById('attributes-list'),
     
     // Saved List
     savedCompsList: document.getElementById('saved-comps-list')
@@ -348,6 +388,7 @@ function renderSlots() {
         };
     });
     updateCompStats();
+    updateCompAttributes();
 }
 
 function updateCompStats() {
@@ -383,6 +424,44 @@ function updateCompStats() {
     // Update DOM directly (no animation for debugging)
     els.totalCredits.textContent = credits;
     els.totalOrbs.textContent = orbs;
+}
+
+function updateCompAttributes() {
+    if (!els.attributesList) return;
+    
+    const attributeCounts = {};
+    
+    state.currentComp.forEach(uuid => {
+        if (!uuid) return;
+        const agent = state.agents.find(a => a.uuid === uuid);
+        if (agent) {
+            const attributes = agentAttributes[agent.displayName];
+            if (attributes) {
+                attributes.forEach(attr => {
+                    attributeCounts[attr] = (attributeCounts[attr] || 0) + 1;
+                });
+            }
+        }
+    });
+    
+    // Clear and rebuild attribute badges
+    els.attributesList.innerHTML = '';
+    
+    if (Object.keys(attributeCounts).length === 0) {
+        els.attributesList.innerHTML = '<span style="color: var(--text-secondary); font-size: 0.75rem;">No agents selected</span>';
+        return;
+    }
+    
+    // Sort attributes by count (descending) then alphabetically
+    const sortedAttributes = Object.entries(attributeCounts)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    
+    sortedAttributes.forEach(([attr, count]) => {
+        const badge = document.createElement('div');
+        badge.className = 'attribute-badge';
+        badge.innerHTML = `${attr} <span class="count">${count}</span>`;
+        els.attributesList.appendChild(badge);
+    });
 }
 
 function animateValue(obj, start, end, duration) {

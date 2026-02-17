@@ -292,6 +292,51 @@ input[type="text"]:focus, textarea:focus {
     color: var(--accent-red);
 }
 
+.comp-attributes {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    border: 1px solid var(--glass-border);
+}
+
+.attributes-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 0.5rem;
+}
+
+.attributes-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.attribute-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 70, 85, 0.15);
+    border: 1px solid var(--accent-red);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.attribute-badge .count {
+    background: var(--accent-red);
+    color: white;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 0.7rem;
+}
+
 .agent-slot {
     width: 64px;
     height: 64px;
