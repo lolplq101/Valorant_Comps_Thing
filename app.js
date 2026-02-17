@@ -351,27 +351,38 @@ function renderSlots() {
 }
 
 function updateCompStats() {
+    if (!els.totalCredits || !els.totalOrbs) {
+        console.error('Total credits/orbs DOM elements not found');
+        return;
+    }
+    
     let credits = 0;
     let orbs = 0;
     
-    state.currentComp.forEach(uuid => {
+    console.log('Updating comp stats. Current comp:', state.currentComp);
+    
+    state.currentComp.forEach((uuid, index) => {
         if (!uuid) return;
         const agent = state.agents.find(a => a.uuid === uuid);
         if (agent) {
-            const cost = agentCosts[agent.displayName] || agentCosts[Object.keys(agentCosts).find(k => k.toLowerCase() === agent.displayName.toLowerCase())];
+            console.log(`Slot ${index}: ${agent.displayName}`);
+            const cost = agentCosts[agent.displayName];
             
             if (cost) {
+                console.log(`  Credits: ${cost.credits}, Orbs: ${cost.orbs}`);
                 credits += cost.credits;
                 orbs += cost.orbs;
             } else {
-                console.warn(`Cost data missing for: ${agent.displayName}`);
+                console.warn(`Cost data missing for: "${agent.displayName}"`);
             }
         }
     });
     
-    // Animate numbers smoothly
-    animateValue(els.totalCredits, parseInt(els.totalCredits.innerText), credits, 500);
-    animateValue(els.totalOrbs, parseInt(els.totalOrbs.innerText), orbs, 500);
+    console.log(`Total - Credits: ${credits}, Orbs: ${orbs}`);
+    
+    // Update DOM directly (no animation for debugging)
+    els.totalCredits.textContent = credits;
+    els.totalOrbs.textContent = orbs;
 }
 
 function animateValue(obj, start, end, duration) {
