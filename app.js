@@ -169,7 +169,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         await Promise.all([fetchMaps(), fetchAgents()]);
         renderMaps();
         els.loading.classList.add('hidden');
-        els.mapsGrid.classList.remove('hidden');
+        
+        // Show home screen first
+        switchView('home');
+        
+        // Add feature card navigation
+        document.getElementById('feature-maps')?.addEventListener('click', () => {
+            switchView('maps');
+        });
+        
+        document.getElementById('feature-mapban')?.addEventListener('click', () => {
+            switchView('mapban');
+        });
+        
     } catch (err) {
         console.error('Failed to load assets', err);
         els.loading.innerHTML = '<p>Error loading data. Please refresh.</p>';
@@ -636,22 +648,26 @@ function loadComp(comp) {
 }
 
 function switchView(viewName) {
+    // Hide all view sections
     els.mapsGrid.classList.add('hidden');
     els.compBuilder.classList.add('hidden');
     els.savedCompsView.classList.add('hidden');
     
-    // Hide map ban view
+    const homeScreen = document.getElementById('home-screen');
     const mapBanView = document.getElementById('mapban-view');
+    if (homeScreen) homeScreen.classList.add('hidden');
     if (mapBanView) mapBanView.classList.add('hidden');
     
+    // Reset button states
     els.viewMapsBtn.classList.remove('active');
     els.viewSavedBtn.classList.remove('active');
-    
-    // Remove mapban active if exists
     const mapBanBtn = document.getElementById('view-mapban-btn');
     if (mapBanBtn) mapBanBtn.classList.remove('active');
     
-    if (viewName === 'maps') {
+    // Show selected view
+    if (viewName === 'home') {
+        if (homeScreen) homeScreen.classList.remove('hidden');
+    } else if (viewName === 'maps') {
         els.mapsGrid.classList.remove('hidden');
         els.viewMapsBtn.classList.add('active');
         state.currentMap = null;
@@ -664,7 +680,7 @@ function switchView(viewName) {
         }
     } else if (viewName === 'saved') {
         if (!state.user) {
-             alert("Please login first!");
+            showToast("Please login first!", 'warning');
         }
         renderSavedComps();
         els.savedCompsView.classList.remove('hidden');
