@@ -233,10 +233,10 @@
 }
 
 .modal-header {
-    display: flex;
+    display: center;
     justify-content: center;
     align-items: center;
-    padding: 1.5rem 5rem 1rem;
+    padding: 1.5rem 2rem 1rem;
     border-bottom: 1px solid var(--glass-border);
     position: relative;
 }
