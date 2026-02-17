@@ -256,6 +256,42 @@ input[type="text"]:focus, textarea:focus {
     border: 1px solid var(--glass-border);
 }
 
+.comp-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.comp-stats {
+    display: flex;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--glass-border);
+    align-items: center;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-family: 'Tungsten', sans-serif;
+    font-size: 1.5rem;
+    color: var(--accent-red);
+}
+
 .agent-slot {
     width: 64px;
     height: 64px;

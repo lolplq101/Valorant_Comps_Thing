@@ -28,6 +28,38 @@ const state = {
     user: null // Current Firebase User
 };
 
+// Agent Costs Data
+const agentCosts = {
+    "Brimstone": { credits: 650, orbs: 8 },
+    "Viper": { credits: 500, orbs: 9 },
+    "Omen": { credits: 600, orbs: 7 },
+    "Killjoy": { credits: 600, orbs: 9 },
+    "Cypher": { credits: 500, orbs: 7 },
+    "Sova": { credits: 700, orbs: 8 },
+    "Sage": { credits: 700, orbs: 7 },
+    "Phoenix": { credits: 600, orbs: 6 },
+    "Jett": { credits: 550, orbs: 8 },
+    "Reyna": { credits: 700, orbs: 7 },
+    "Raze": { credits: 700, orbs: 8 },
+    "Breach": { credits: 700, orbs: 8 },
+    "Skye": { credits: 700, orbs: 8 },
+    "Yoru": { credits: 850, orbs: 8 },
+    "Astra": { credits: 600, orbs: 7 },
+    "KAY/O": { credits: 700, orbs: 8 },
+    "Chamber": { credits: 1000, orbs: 8 },
+    "Neon": { credits: 500, orbs: 8 },
+    "Fade": { credits: 700, orbs: 8 },
+    "Harbor": { credits: 500, orbs: 7 },
+    "Gekko": { credits: 550, orbs: 8 },
+    "Deadlock": { credits: 700, orbs: 7 },
+    "Iso": { credits: 500, orbs: 7 },
+    "Clove": { credits: 600, orbs: 8 },
+    "Vyse": { credits: 500, orbs: 8 },
+    "Tejo": { credits: 750, orbs: 9 },
+    "Waylay": { credits: 600, orbs: 8 },
+    "Veto": { credits: 600, orbs: 7 }
+};
+
 // Expose state globally for mapban.js
 window.state = state;
 
@@ -56,6 +88,8 @@ const els = {
     roleFilters: document.querySelectorAll('.role-filter'),
     compNameInput: document.getElementById('comp-name-input'),
     stratNotesInput: document.getElementById('strat-notes-input'),
+    totalCredits: document.getElementById('total-credits'),
+    totalOrbs: document.getElementById('total-orbs'),
     
     // Saved List
     savedCompsList: document.getElementById('saved-comps-list')
@@ -313,6 +347,47 @@ function renderSlots() {
             if (uuid) updateSlot(index, uuid);
         };
     });
+    updateCompStats();
+}
+
+function updateCompStats() {
+    let credits = 0;
+    let orbs = 0;
+    
+    state.currentComp.forEach(uuid => {
+        if (!uuid) return;
+        const agent = state.agents.find(a => a.uuid === uuid);
+        if (agent) {
+            const cost = agentCosts[agent.displayName] || agentCosts[Object.keys(agentCosts).find(k => k.toLowerCase() === agent.displayName.toLowerCase())];
+            
+            if (cost) {
+                credits += cost.credits;
+                orbs += cost.orbs;
+            } else {
+                console.warn(`Cost data missing for: ${agent.displayName}`);
+            }
+        }
+    });
+    
+    // Animate numbers smoothly
+    animateValue(els.totalCredits, parseInt(els.totalCredits.innerText), credits, 500);
+    animateValue(els.totalOrbs, parseInt(els.totalOrbs.innerText), orbs, 500);
+}
+
+function animateValue(obj, start, end, duration) {
+    if (start === end) return;
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.innerHTML = Math.floor(progress * (end - start) + start);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        } else {
+            obj.innerHTML = end;
+        }
+    };
+    window.requestAnimationFrame(step);
 }
 
 function renderSavedComps() {
