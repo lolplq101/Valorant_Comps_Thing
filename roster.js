@@ -25,18 +25,27 @@ const rosterEls = {
     agentSelectorGrid: document.getElementById('agent-selector-grid')
 };
 
+
 function initRoster() {
+    if (!rosterEls.viewRosterBtn) return; // Safety check
+    
     rosterEls.viewRosterBtn.onclick = () => switchView('roster');
     rosterEls.saveRosterBtn.onclick = saveRoster;
     rosterEls.teamNameInput.oninput = (e) => {
         rosterState.teamName = e.target.value;
     };
     
-    renderRoster();
-    loadRosterFromFirebase();
+    // Only render if agents are loaded
+    if (state && state.agents && state.agents.length > 0) {
+        renderRoster();
+        loadRosterFromFirebase();
+    }
 }
 
 function renderRoster() {
+    if (!rosterEls.playersGrid) return; // Safety check
+    if (!state || !state.agents) return; // Wait for agents to load
+    
     rosterEls.playersGrid.innerHTML = '';
     
     rosterState.players.forEach((player, index) => {
@@ -71,6 +80,8 @@ function renderRoster() {
 }
 
 function renderAgentPool(agentPool, playerIndex) {
+    if (!state || !state.agents) return ''; // Safety check
+    
     return agentPool.map(agentName => {
         const agent = state.agents.find(a => a.displayName === agentName);
         if (!agent) return '';
@@ -96,6 +107,8 @@ function closeAgentSelector() {
 }
 
 function renderAgentSelector() {
+    if (!state || !state.agents) return; // Safety check
+    
     rosterEls.agentSelectorGrid.innerHTML = '';
     
     state.agents.forEach(agent => {
@@ -191,8 +204,6 @@ window.openAgentSelector = openAgentSelector;
 window.closeAgentSelector = closeAgentSelector;
 window.removeAgentFromPool = removeAgentFromPool;
 
-// Initialize on DOM load
-document.addEventListener('DOMContentLoaded', () => {
-    // Small delay to ensure agents are loaded
-    setTimeout(initRoster, 500);
-});
+// Initialize when ready - called from app.js after agents are loaded
+window.initRoster = initRoster;
+

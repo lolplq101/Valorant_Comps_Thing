@@ -173,6 +173,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Show home screen first
         switchView('home');
         
+        // Initialize roster after agents are loaded
+        if (window.initRoster) {
+            window.initRoster();
+        }
+        
         // Add feature card navigation
         document.getElementById('feature-maps')?.addEventListener('click', () => {
             switchView('maps');
