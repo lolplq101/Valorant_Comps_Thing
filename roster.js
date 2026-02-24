@@ -2,6 +2,8 @@
 // TEAM ROSTER MANAGER
 // ==========================================
 
+const CORE_PLAYERS = 5; // Fixed starting roster size
+
 const rosterState = {
     teamName: '',
     players: [
@@ -50,15 +52,23 @@ function renderRoster() {
     rosterEls.playersGrid.innerHTML = '';
     
     rosterState.players.forEach((player, index) => {
+        const isCore = index < CORE_PLAYERS;
+        const isSub = !isCore;
+        const subNumber = index - CORE_PLAYERS + 1;
+        const label = isCore ? `Player ${index + 1}` : `Sub ${subNumber}`;
+        
         const playerCard = document.createElement('div');
-        playerCard.className = 'player-card';
+        playerCard.className = 'player-card' + (isSub ? ' substitute-card' : '');
         playerCard.dataset.playerIndex = index;
         
         playerCard.innerHTML = `
-            <div class="player-number">Player ${index + 1}</div>
+            <div class="player-number-row">
+                <div class="player-number">${label}</div>
+                ${isSub ? `<button class="remove-sub-btn" onclick="removeSubstituteSlot(${index})" title="Remove substitute">×</button>` : ''}
+            </div>
             <input type="text" 
                    class="player-name-input" 
-                   placeholder="Player ${index + 1} Name"
+                   placeholder="${label} Name"
                    value="${player.name}"
                    data-player-index="${index}">
             <span class="agent-pool-label">Agent Pool:</span>
@@ -78,6 +88,19 @@ function renderRoster() {
         
         rosterEls.playersGrid.appendChild(playerCard);
     });
+    
+    // Always append the + Add Substitute card at the end
+    const addSubCard = document.createElement('div');
+    addSubCard.className = 'player-card add-substitute-card';
+    addSubCard.setAttribute('title', 'Add substitute player');
+    addSubCard.innerHTML = `
+        <div class="add-sub-inner">
+            <div class="add-sub-icon">+</div>
+            <div class="add-sub-label">Add Substitute</div>
+        </div>
+    `;
+    addSubCard.onclick = () => addSubstituteSlot();
+    rosterEls.playersGrid.appendChild(addSubCard);
 }
 
 function renderAgentPool(agentPool, playerIndex) {
@@ -165,6 +188,23 @@ function removeAgentFromPool(playerIndex, agentName) {
     showToast(`${agentName} removed`, 'info');
 }
 
+function addSubstituteSlot() {
+    rosterState.players.push({ name: '', agentPool: [] });
+    renderRoster();
+    // Scroll to the new card smoothly
+    const cards = rosterEls.playersGrid.querySelectorAll('.player-card:not(.add-substitute-card)');
+    const lastCard = cards[cards.length - 1];
+    if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function removeSubstituteSlot(index) {
+    if (index < CORE_PLAYERS) return; // Protect core 5
+    rosterState.players.splice(index, 1);
+    renderRoster();
+    const subNum = index - CORE_PLAYERS + 1;
+    showToast(`Sub ${subNum} removed`, 'info');
+}
+
 async function saveRoster() {
     if (!state.user) {
         showToast("Please login to save roster!", 'warning');
@@ -235,6 +275,8 @@ window.openAgentSelector = openAgentSelector;
 window.closeAgentSelector = closeAgentSelector;
 window.removeAgentFromPool = removeAgentFromPool;
 window.confirmAgentSelection = confirmAgentSelection;
+window.addSubstituteSlot = addSubstituteSlot;
+window.removeSubstituteSlot = removeSubstituteSlot;
 
 // Initialize when ready - called from app.js after agents are loaded
 window.initRoster = initRoster;

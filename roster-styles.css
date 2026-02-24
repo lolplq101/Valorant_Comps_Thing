@@ -82,6 +82,101 @@
     letter-spacing: 0.1em;
 }
 
+/* Row that holds the label + remove button for subs */
+.player-number-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.player-number-row .player-number {
+    margin-bottom: 0;
+}
+
+/* Substitute card subtle accent */
+.substitute-card {
+    border-color: rgba(255, 200, 70, 0.2);
+}
+
+.substitute-card .player-number {
+    color: rgba(255, 200, 70, 0.8);
+}
+
+/* X button to remove a substitute slot */
+.remove-sub-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 70, 85, 0.3);
+    border-radius: 50%;
+    color: rgba(255, 70, 85, 0.7);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.remove-sub-btn:hover {
+    background: rgba(255, 70, 85, 0.15);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+    transform: scale(1.15);
+}
+
+/* Add Substitute card – same sizing as player-card, click to add */
+.add-substitute-card {
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.add-substitute-card:hover {
+    border-color: rgba(255, 70, 85, 0.6);
+    background: rgba(255, 70, 85, 0.05);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(255, 70, 85, 0.15);
+}
+
+.add-sub-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    pointer-events: none;
+}
+
+.add-sub-icon {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.3);
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.add-sub-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.3);
+    transition: color 0.3s;
+}
+
+.add-substitute-card:hover .add-sub-icon,
+.add-substitute-card:hover .add-sub-label {
+    color: rgba(255, 70, 85, 0.8);
+}
+
 .player-name-input {
     font-size: 1.3rem;
     font-weight: 600;
