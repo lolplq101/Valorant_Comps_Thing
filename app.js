@@ -129,6 +129,7 @@ function showToast(message, type = 'success', duration = 3000) {
         setTimeout(() => toast.remove(), 300);
     }, duration);
 }
+window.showToast = showToast;
 
 // DOM Elements
 const els = {
@@ -249,6 +250,8 @@ function setupAuthListener() {
             els.userDisplay.textContent = `Hi, ${user.displayName.split(' ')[0]}`;
             console.log("User logged in:", user.uid);
             await loadCompsFromFirestore();
+            // Init team sharing panel
+            if (window.initTeamSharing) window.initTeamSharing();
         } else {
             // Logged Out
             els.loginBtn.classList.remove('hidden');
@@ -256,6 +259,8 @@ function setupAuthListener() {
             els.userDisplay.classList.add('hidden');
             state.savedComps = []; // Clear data
             renderSavedComps();
+            // Reset team panel
+            if (window.renderTeamPanel) window.renderTeamPanel();
         }
     });
 }
@@ -601,7 +606,26 @@ function renderSavedComps() {
              slotsDiv.appendChild(mini);
         });
         
-        // Actions
+        // Actions row
+        const shareBtn = document.createElement('button');
+        shareBtn.className = 'share-comp-btn';
+        if (comp.shareCode) {
+            shareBtn.className = 'share-code-badge';
+            shareBtn.innerText = comp.shareCode;
+            shareBtn.title = 'Click to copy / share again';
+            shareBtn.onclick = (e) => {
+                e.stopPropagation();
+                window.shareComp(comp.docId);
+            };
+        } else {
+            shareBtn.innerText = '🔗 Share';
+            shareBtn.title = 'Generate a share code';
+            shareBtn.onclick = (e) => {
+                e.stopPropagation();
+                window.shareComp(comp.docId);
+            };
+        }
+
         const loadBtn = document.createElement('button');
         loadBtn.className = 'icon-btn';
         loadBtn.innerText = 'Load';
@@ -615,14 +639,14 @@ function renderSavedComps() {
         deleteBtn.onclick = (e) => {
             e.stopPropagation();
             deleteComp(comp.docId);
-            // In Firestore, index is not safe, use DocID
         };
 
         const rightSide = document.createElement('div');
         rightSide.style.display = 'flex';
         rightSide.style.alignItems = 'center';
+        rightSide.style.gap = '0.5rem';
         rightSide.appendChild(slotsDiv);
-        rightSide.appendChild(document.createTextNode('\u00A0\u00A0')); 
+        rightSide.appendChild(shareBtn);
         rightSide.appendChild(loadBtn);
         rightSide.appendChild(deleteBtn);
         
@@ -741,6 +765,13 @@ function switchView(viewName) {
 
 // Expose switchView globally for mapban.js
 window.switchView = switchView;
+
+// Expose for team-sharing.js (runs outside ES module)
+window.state = state;
+window.openBuilder = openBuilder;
+window.renderSlots = renderSlots;
+window.renderSavedComps = renderSavedComps;
+window.firebaseApp = app;
 
 function setupEventListeners() {
     // Navigation - using onclick for immediate assignment
