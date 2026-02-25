@@ -1,0 +1,579 @@
+/* ==========================================
+   PREMIER MODE STYLES
+   ========================================== */
+
+/* ---------- View Container ---------- */
+
+#premier-view {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.premier-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem;
+    color: var(--text-secondary);
+}
+
+/* ---------- Banners ---------- */
+
+.premier-error-banner,
+.premier-no-key-banner {
+    background: rgba(255, 200, 60, 0.08);
+    border: 1px solid rgba(255, 200, 60, 0.3);
+    border-radius: 8px;
+    color: rgba(255, 200, 60, 0.9);
+    font-size: 0.85rem;
+    padding: 0.65rem 1.1rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.premier-error-banner { border-color: rgba(255, 70, 85, 0.3); color: rgba(255, 120, 120, 0.9); background: rgba(255,70,85,0.06); }
+
+.btn-link {
+    background: none;
+    border: 1px solid currentColor;
+    border-radius: 6px;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.65rem;
+    transition: background 0.2s;
+    margin-left: auto;
+}
+.btn-link:hover { background: rgba(255,255,255,0.1); }
+
+/* ---------- Header ---------- */
+
+.premier-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.premier-season-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.premier-team-name {
+    font-family: 'Tungsten', 'Oswald', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.premier-team-tag {
+    font-size: 1.4rem;
+    color: var(--accent-red);
+}
+
+.premier-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.premier-pts-block {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+}
+
+.premier-pts-number {
+    font-family: 'Tungsten', 'Oswald', sans-serif;
+    font-size: 3rem;
+    color: var(--accent-red);
+    line-height: 1;
+}
+
+.premier-pts-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.premier-qualify-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.premier-qualify-badge.qualified {
+    background: rgba(70, 200, 120, 0.12);
+    border: 1px solid rgba(70, 200, 120, 0.35);
+    color: rgba(100, 220, 140, 0.95);
+}
+
+.premier-qualify-badge.not-qualified {
+    background: rgba(255,200,60,0.08);
+    border: 1px solid rgba(255,200,60,0.3);
+    color: rgba(255,210,80,0.9);
+}
+
+.premier-match-window-global {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.75rem;
+}
+
+.premier-match-window-global strong { color: var(--text-primary); }
+
+/* ---------- Body Layout ---------- */
+
+.premier-body {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+@media (max-width: 900px) {
+    .premier-body { grid-template-columns: 1fr; }
+}
+
+.premier-section-title {
+    font-family: 'Tungsten', 'Oswald', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+/* ---------- Week Rows ---------- */
+
+.premier-calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.week-row {
+    display: flex;
+    align-items: stretch;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s, background 0.2s;
+    min-height: 80px;
+}
+
+.week-row.week-current {
+    border-color: rgba(255, 70, 85, 0.5);
+    background: rgba(255, 70, 85, 0.05);
+    box-shadow: 0 0 16px rgba(255, 70, 85, 0.08);
+}
+
+.week-row.week-past {
+    opacity: 0.75;
+}
+
+.week-map-thumb {
+    width: 120px;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(255,255,255,0.05);
+    position: relative;
+}
+
+.week-map-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 60%, rgba(15,15,20,0.95));
+}
+
+.week-map-thumb--empty {
+    background: rgba(255,255,255,0.04);
+}
+
+.playoff-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: rgba(255,200,60,0.08);
+}
+
+.week-info {
+    flex: 1;
+    padding: 0.85rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    justify-content: center;
+}
+
+.week-top-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.week-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--text-secondary);
+    min-width: 32px;
+}
+
+.week-map-name {
+    font-family: 'Tungsten', 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.week-dates {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+.current-week-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    background: var(--accent-red);
+    color: #fff;
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+}
+
+.result-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+}
+
+.result-badge.wins {
+    background: rgba(70,200,120,0.12);
+    color: rgba(100,220,140,0.95);
+    border: 1px solid rgba(70,200,120,0.3);
+}
+
+.result-badge.no-play {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-secondary);
+    border: 1px solid var(--glass-border);
+}
+
+.week-pts {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 200, 60, 0.9);
+}
+
+.playoff-signin {
+    font-size: 0.78rem;
+    color: rgba(255, 200, 60, 0.85);
+    font-weight: 600;
+}
+
+.playoff-row { border-color: rgba(255,200,60,0.3); }
+.playoff-row.week-current { border-color: rgba(255,200,60,0.6); background: rgba(255,200,60,0.05); }
+
+/* ---------- Comp Chips ---------- */
+
+.week-comps-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+}
+
+.premier-comp-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 70, 85, 0.1);
+    border: 1px solid rgba(255, 70, 85, 0.3);
+    border-radius: 6px;
+    padding: 0.2rem 0.5rem 0.2rem 0.7rem;
+    font-size: 0.78rem;
+    color: rgba(255,150,130,0.95);
+}
+
+.chip-load-btn,
+.chip-remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0 0.15rem;
+    transition: color 0.15s;
+    line-height: 1;
+    color: inherit;
+    opacity: 0.7;
+}
+.chip-load-btn:hover { opacity: 1; color: #fff; }
+.chip-remove-btn:hover { opacity: 1; color: var(--accent-red); }
+
+.add-comp-to-week-btn {
+    background: transparent;
+    border: 1px dashed rgba(255,255,255,0.2);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.65rem;
+    transition: all 0.2s;
+}
+.add-comp-to-week-btn:hover {
+    border-color: rgba(255,70,85,0.5);
+    color: rgba(255,130,120,0.9);
+}
+
+/* ---------- Leaderboard Sidebar ---------- */
+
+.leaderboard-panel {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    position: sticky;
+    top: 80px;
+}
+
+.lb-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+.lb-list::-webkit-scrollbar { width: 4px; }
+.lb-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+
+.lb-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    transition: background 0.15s;
+}
+
+.lb-row:hover { background: rgba(255,255,255,0.04); }
+
+.lb-row-me {
+    background: rgba(255, 70, 85, 0.08);
+    border: 1px solid rgba(255, 70, 85, 0.25);
+}
+
+.lb-rank {
+    color: var(--text-secondary);
+    font-weight: 700;
+    min-width: 28px;
+    font-size: 0.75rem;
+}
+
+.lb-name {
+    flex: 1;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lb-tag { color: var(--text-secondary); font-weight: 400; }
+
+.lb-pts {
+    font-weight: 700;
+    color: rgba(255,200,60,0.85);
+    white-space: nowrap;
+    font-size: 0.78rem;
+}
+
+.lb-empty {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 1.5rem 0;
+}
+
+.refresh-lb-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.78rem;
+    padding: 0.45rem 0.85rem;
+    width: 100%;
+    transition: all 0.2s;
+}
+.refresh-lb-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+
+/* ---------- API Key Modal ---------- */
+
+.api-key-modal-content {
+    max-width: 420px;
+    width: 100%;
+    padding: 2rem;
+}
+
+.api-key-modal-content h3 {
+    font-family: 'Tungsten', 'Oswald', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+}
+
+.api-key-modal-content p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+}
+
+.api-key-modal-content a {
+    color: rgba(255,150,130,0.9);
+    text-decoration: underline;
+}
+
+.api-key-input-row {
+    display: flex;
+    gap: 0.65rem;
+    margin-bottom: 0.75rem;
+}
+
+.api-key-field {
+    flex: 1;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+    transition: border-color 0.2s;
+}
+.api-key-field:focus { outline: none; border-color: var(--accent-red); }
+
+.api-key-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+}
+
+.api-key-modal-actions {
+    display: flex;
+    gap: 0.65rem;
+    justify-content: flex-end;
+}
+
+/* ---------- Comp Picker Modal ---------- */
+
+.premier-comp-picker-content {
+    max-width: 460px;
+    width: 100%;
+    padding: 1.5rem;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.premier-comp-picker-content h3 {
+    font-family: 'Tungsten', 'Oswald', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+}
+
+#premier-comp-picker-list {
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#premier-comp-picker-list::-webkit-scrollbar { width: 4px; }
+#premier-comp-picker-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+
+.comp-picker-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    gap: 0.75rem;
+}
+
+.comp-picker-row:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.2); }
+
+.comp-picker-linked {
+    border-color: rgba(255,70,85,0.4);
+    background: rgba(255,70,85,0.06);
+}
+
+.comp-picker-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.comp-picker-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.comp-picker-map {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.comp-picker-check {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.comp-picker-linked .comp-picker-check {
+    color: rgba(100,220,140,0.9);
+}
+
+.comp-picker-done-row {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}

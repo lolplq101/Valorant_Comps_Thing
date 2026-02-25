@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="dropdown-nav.css">
     <link rel="stylesheet" href="mapban-styles.css">
     <link rel="stylesheet" href="team-sharing.css">
+    <link rel="stylesheet" href="premier.css">
     <link href="https://fonts.googleapis.com/css2?family=Tungsten:wght@600&family=DIN+Next+W1G:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Using Google Fonts similar to Valorant style (Tungsten is actual but usually paid, using Outfit/Roboto as clean sans-serif alternatives, or Tungsten if available via Google Fonts - it's not, using similar heavy condensed fonts like 'Oswald' or just sticking to Outfit for UI) -->
@@ -32,6 +33,7 @@
                     </div>
                 </div>
                 <button id="view-saved-btn" class="nav-btn">Saved Comps</button>
+                <button id="view-premier-btn" class="nav-btn">⚔️ Premier</button>
                 <span id="user-display" class="user-display hidden"></span>
                 <button id="login-btn" class="nav-btn login-btn">Login</button>
                 <button id="logout-btn" class="nav-btn hidden">Logout</button>
@@ -149,7 +151,15 @@
                 </div>
             </section>
 
+            <!-- PREMIER SECTION -->
+            <section id="premier-view" class="view-section hidden">
+                <div id="premier-content">
+                    <!-- Populated by premier.js renderPremierView() -->
+                </div>
+            </section>
+
             <!-- MAP BAN SECTION -->
+
             <section id="mapban-view" class="view-section hidden">
                 <!-- Setup Phase -->
                 <div id="mapban-setup" class="mapban-setup">
@@ -354,6 +364,7 @@
     <script src="mapban.js"></script>
     <script src="roster.js"></script>
     <script src="team-sharing.js"></script>
+    <script src="premier.js"></script>
     <script src="app.js" type="module"></script>
 
     <!-- Share Code Modal -->
@@ -388,5 +399,43 @@
             </div>
         </div>
     </div>
+    <!-- API Key Modal -->
+    <div id="api-key-modal" class="modal hidden">
+        <div class="modal-content api-key-modal-content">
+            <div class="modal-header">
+                <h3>🔑 Henrik API Key</h3>
+                <button class="modal-close" onclick="window.closeApiKeyModal()">×</button>
+            </div>
+            <p>
+                This key enables live Premier data — match results, standings, and season schedule.
+                Get a free key from the <a href="https://discord.gg/clbotpublic" target="_blank">HenrikDev Discord</a>
+                (join → <code>#bot-commands</code> → <code>/key get</code>).
+                Your key is stored locally on this device only.
+            </p>
+            <div class="api-key-input-row">
+                <input id="api-key-input" class="api-key-field" type="password" placeholder="HDEV-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+            </div>
+            <div class="api-key-hint">Key is saved in your browser's local storage — never sent anywhere else.</div>
+            <div class="api-key-modal-actions">
+                <button class="secondary-btn" onclick="window.closeApiKeyModal()">Skip for now</button>
+                <button class="primary-btn" onclick="window.saveApiKey()">Save Key</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premier Comp Picker Modal -->
+    <div id="premier-comp-picker-modal" class="modal hidden">
+        <div class="modal-content premier-comp-picker-content">
+            <div class="modal-header">
+                <h3>Link a Comp to this Week</h3>
+                <button class="modal-close" onclick="window.closePremierCompPicker()">×</button>
+            </div>
+            <div id="premier-comp-picker-list"></div>
+            <div class="comp-picker-done-row">
+                <button class="primary-btn" onclick="window.closePremierCompPicker()">Done</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
