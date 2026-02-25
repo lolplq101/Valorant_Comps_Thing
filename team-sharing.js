@@ -487,18 +487,42 @@ function copyShareCode() {
 }
 
 function copyToClipboard(text, successMsg = 'Copied!') {
-    navigator.clipboard.writeText(text).then(() => {
+    // Modern async clipboard API (works on https:// and localhost)
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast(successMsg, 'success');
+        }).catch(() => {
+            fallbackCopy(text, successMsg);
+        });
+    } else {
+        // Fallback for file:// or non-secure contexts
+        fallbackCopy(text, successMsg);
+    }
+}
+
+function fallbackCopy(text, successMsg) {
+    const el = document.createElement('textarea');
+    el.value = text;
+    // Position off-screen so it doesn't flash
+    el.style.position = 'fixed';
+    el.style.left = '-9999px';
+    el.style.top = '-9999px';
+    el.style.opacity = '0';
+    document.body.appendChild(el);
+    el.focus();
+    el.select();
+    let success = false;
+    try {
+        success = document.execCommand('copy');
+    } catch (err) {
+        console.error('Fallback copy failed:', err);
+    }
+    document.body.removeChild(el);
+    if (success) {
         showToast(successMsg, 'success');
-    }).catch(() => {
-        // Fallback
-        const el = document.createElement('textarea');
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-        showToast(successMsg, 'success');
-    });
+    } else {
+        showToast('Could not copy — please copy manually', 'warning');
+    }
 }
 
 // ==========================================
@@ -520,5 +544,6 @@ window.refreshInviteCode = refreshInviteCode;
 window.closeShareCodeModal = closeShareCodeModal;
 window.copyShareCode = copyShareCode;
 window.copyToClipboard = copyToClipboard;
+window.fallbackCopy = fallbackCopy;
 window.initTeamSharing = initTeamSharing;
 window.renderTeamPanel = renderTeamPanel;

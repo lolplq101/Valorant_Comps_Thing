@@ -3,6 +3,7 @@
 // ==========================================
 
 const CORE_PLAYERS = 5; // Fixed starting roster size
+const MAX_SUBS = 5;      // Maximum substitute slots (total cap = 10)
 
 const rosterState = {
     teamName: '',
@@ -89,18 +90,21 @@ function renderRoster() {
         rosterEls.playersGrid.appendChild(playerCard);
     });
     
-    // Always append the + Add Substitute card at the end
-    const addSubCard = document.createElement('div');
-    addSubCard.className = 'player-card add-substitute-card';
-    addSubCard.setAttribute('title', 'Add substitute player');
-    addSubCard.innerHTML = `
-        <div class="add-sub-inner">
-            <div class="add-sub-icon">+</div>
-            <div class="add-sub-label">Add Substitute</div>
-        </div>
-    `;
-    addSubCard.onclick = () => addSubstituteSlot();
-    rosterEls.playersGrid.appendChild(addSubCard);
+    // Only show + card if under the sub limit
+    const currentSubs = rosterState.players.length - CORE_PLAYERS;
+    if (currentSubs < MAX_SUBS) {
+        const addSubCard = document.createElement('div');
+        addSubCard.className = 'player-card add-substitute-card';
+        addSubCard.setAttribute('title', 'Add substitute player');
+        addSubCard.innerHTML = `
+            <div class="add-sub-inner">
+                <div class="add-sub-icon">+</div>
+                <div class="add-sub-label">Add Substitute</div>
+            </div>
+        `;
+        addSubCard.onclick = () => addSubstituteSlot();
+        rosterEls.playersGrid.appendChild(addSubCard);
+    }
 }
 
 function renderAgentPool(agentPool, playerIndex) {
@@ -189,6 +193,11 @@ function removeAgentFromPool(playerIndex, agentName) {
 }
 
 function addSubstituteSlot() {
+    const currentSubs = rosterState.players.length - CORE_PLAYERS;
+    if (currentSubs >= MAX_SUBS) {
+        showToast('Max 5 substitutes reached (10 players total)', 'warning');
+        return;
+    }
     rosterState.players.push({ name: '', agentPool: [] });
     renderRoster();
     // Scroll to the new card smoothly
