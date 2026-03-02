@@ -161,11 +161,7 @@ const els = {
     attributesList: document.getElementById('attributes-list'),
     
     // Saved List
-    savedCompsList: document.getElementById('saved-comps-list'),
-
-    // Premier
-    premierView: document.getElementById('premier-view'),
-    viewPremierBtn: document.getElementById('view-premier-btn')
+    savedCompsList: document.getElementById('saved-comps-list')
 };
 
 // Initialization
@@ -725,17 +721,14 @@ function switchView(viewName) {
     const homeScreen = document.getElementById('home-screen');
     const mapBanView = document.getElementById('mapban-view');
     const rosterView = document.getElementById('roster-view');
-    const premierView = document.getElementById('premier-view');
     if (homeScreen) homeScreen.classList.add('hidden');
     if (mapBanView) mapBanView.classList.add('hidden');
     if (rosterView) rosterView.classList.add('hidden');
-    if (premierView) premierView.classList.add('hidden');
     
     // Reset button states (including dropdown items)
     const dropdownItems = document.querySelectorAll('.dropdown-item');
     dropdownItems.forEach(item => item.classList.remove('active'));
     els.viewSavedBtn.classList.remove('active');
-    if (els.viewPremierBtn) els.viewPremierBtn.classList.remove('active');
     
     // Show selected view
     if (viewName === 'home') {
@@ -767,12 +760,6 @@ function switchView(viewName) {
         renderSavedComps();
         els.savedCompsView.classList.remove('hidden');
         els.viewSavedBtn.classList.add('active');
-    } else if (viewName === 'premier') {
-        if (premierView) {
-            premierView.classList.remove('hidden');
-            if (els.viewPremierBtn) els.viewPremierBtn.classList.add('active');
-            if (window.initPremier) window.initPremier();
-        }
     }
 }
 
@@ -785,7 +772,6 @@ window.openBuilder = openBuilder;
 window.renderSlots = renderSlots;
 window.renderSavedComps = renderSavedComps;
 window.firebaseApp = app;
-window.loadComp = loadComp;
 
 function setupEventListeners() {
     // Navigation - using onclick for immediate assignment
@@ -799,9 +785,6 @@ function setupEventListeners() {
     
     if (mapBanBtn) mapBanBtn.onclick = () => switchView('mapban');
     if (rosterBtn) rosterBtn.onclick = () => switchView('roster');
-
-    const premierBtn = document.getElementById('view-premier-btn');
-    if (premierBtn) premierBtn.onclick = () => switchView('premier');
     
     // Comp builder actions
     els.saveCompBtn.onclick = saveCurrentComp;
