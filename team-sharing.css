@@ -343,9 +343,9 @@
 /* ---------- Share Code Modal ---------- */
 
 .share-code-modal-content {
-    text-align: center;
+    text-align: left;
     padding: 2rem;
-    max-width: 380px;
+    max-width: 520px;
     width: 100%;
 }
 
@@ -359,27 +359,91 @@
 .share-code-modal-content p {
     font-size: 0.85rem;
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Direct link row */
+.share-link-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.share-link-text {
+    flex: 1;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: monospace;
+    letter-spacing: 0.02em;
+    user-select: all;
+}
+
+.copy-link-btn {
+    background: var(--accent-red);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+.copy-link-btn:hover { background: var(--accent-dark-red); }
+
+/* Compact code row below the link */
+.share-code-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.share-code-label {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
 }
 
 .big-share-code {
     font-family: 'Tungsten', monospace;
-    font-size: 2.8rem;
-    letter-spacing: 0.25em;
+    font-size: 1.6rem;
+    letter-spacing: 0.2em;
     color: var(--accent-red);
     background: rgba(255,70,85,0.08);
-    border: 2px dashed rgba(255,70,85,0.4);
-    border-radius: 12px;
-    padding: 1rem 1.5rem;
-    margin-bottom: 1.5rem;
+    border: 1px dashed rgba(255,70,85,0.4);
+    border-radius: 8px;
+    padding: 0.35rem 0.85rem;
     user-select: all;
-    display: block;
 }
+
+.copy-code-only-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--glass-border);
+    border-radius: 7px;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.3rem 0.6rem;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+.copy-code-only-btn:hover { background: rgba(255,255,255,0.12); }
 
 .share-modal-actions {
     display: flex;
     gap: 0.75rem;
-    justify-content: center;
+    justify-content: flex-end;
     flex-wrap: wrap;
 }
 

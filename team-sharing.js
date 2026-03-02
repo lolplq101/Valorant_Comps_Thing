@@ -474,6 +474,13 @@ function renderTeamPanel() {
 
 function showShareCodeModal(code, type) {
     document.getElementById('share-code-value').textContent = code;
+
+    // Build the direct link using current page origin + path
+    const base = window.location.origin + window.location.pathname;
+    const link = `${base}?comp=${code}`;
+    const linkEl = document.getElementById('share-link-value');
+    if (linkEl) linkEl.textContent = link;
+
     document.getElementById('share-code-modal').classList.remove('hidden');
 }
 
@@ -484,6 +491,13 @@ function closeShareCodeModal() {
 function copyShareCode() {
     const code = document.getElementById('share-code-value').textContent;
     copyToClipboard(code, 'Code copied to clipboard!');
+}
+
+function copyShareLink() {
+    const base = window.location.origin + window.location.pathname;
+    const code = document.getElementById('share-code-value').textContent;
+    const link = `${base}?comp=${code}`;
+    copyToClipboard(link, 'Direct link copied!');
 }
 
 function copyToClipboard(text, successMsg = 'Copied!') {
@@ -543,6 +557,7 @@ window.removeMember = removeMember;
 window.refreshInviteCode = refreshInviteCode;
 window.closeShareCodeModal = closeShareCodeModal;
 window.copyShareCode = copyShareCode;
+window.copyShareLink = copyShareLink;
 window.copyToClipboard = copyToClipboard;
 window.fallbackCopy = fallbackCopy;
 window.initTeamSharing = initTeamSharing;

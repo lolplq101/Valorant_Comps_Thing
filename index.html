@@ -368,10 +368,20 @@
                 <h3>Share This Comp</h3>
                 <button class="modal-close" onclick="window.closeShareCodeModal()">×</button>
             </div>
-            <p>Share this code with your teammates. They can paste it in Saved Comps to load the comp.</p>
-            <span class="big-share-code" id="share-code-value">VLR-XXXX</span>
+            <p>Send the direct link — they click it and the comp opens instantly. No sign-in needed.</p>
+
+            <div class="share-link-row">
+                <span class="share-link-text" id="share-link-value"></span>
+                <button class="copy-link-btn" onclick="window.copyShareLink()" title="Copy link">🔗 Copy Link</button>
+            </div>
+
+            <div class="share-code-row">
+                <span class="share-code-label">Or share the code:</span>
+                <span class="big-share-code" id="share-code-value">VLR-XXXX</span>
+                <button class="copy-code-only-btn" onclick="window.copyShareCode()" title="Copy code">📋</button>
+            </div>
+
             <div class="share-modal-actions">
-                <button class="primary-btn" onclick="window.copyShareCode()">📋 Copy Code</button>
                 <button class="secondary-btn" onclick="window.closeShareCodeModal()">Done</button>
             </div>
         </div>

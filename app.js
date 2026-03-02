@@ -175,7 +175,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // Show home screen first
         switchView('home');
-        
+
+        // Auto-load shared comp if URL contains ?comp=VLR-XXXX
+        const urlParams = new URLSearchParams(window.location.search);
+        const compCode = urlParams.get('comp');
+        if (compCode && window.loadSharedComp) {
+            // Small delay so agents/maps are available for the preview render
+            setTimeout(() => window.loadSharedComp(compCode), 300);
+        }
+
         // Initialize roster after agents are loaded
         if (window.initRoster) {
             window.initRoster();
