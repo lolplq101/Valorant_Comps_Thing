@@ -1,0 +1,293 @@
+/* ==============================================
+   MOBILE & RESPONSIVE OVERRIDES
+   Breakpoints: 768px (tablet), 480px (phone)
+   ============================================== */
+
+/* ---- Touch: remove hover-only transforms that feel broken ---- */
+@media (hover: none) {
+    .map-card:hover     { transform: none; box-shadow: none; border-color: transparent; }
+    .feature-card:hover { transform: none; box-shadow: none; }
+    .agent-card-picker:hover { transform: none; box-shadow: none; }
+    .agent-card-picker:hover .agent-card-name { transform: translateY(0); }
+    .nav-btn:hover { transform: none; }
+}
+
+/* ================================================
+   TABLET  (≤ 900px)
+   ================================================ */
+@media (max-width: 900px) {
+
+    /* --- Header --- */
+    .app-header {
+        padding: 0.75rem 1rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .logo { font-size: 1.2rem; }
+
+    /* Shrink nav buttons */
+    .nav-btn { font-size: 0.85rem; margin-left: 0.5rem; }
+
+    /* --- Home hero --- */
+    .hero-title { font-size: 3.5rem; }
+    .hero-subtitle { font-size: 1.2rem; }
+    .features-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+    /* --- Maps grid --- */
+    #maps-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.5rem;
+        padding: 1.25rem;
+    }
+
+    /* --- Builder layout --- */
+    .builder-layout {
+        flex-direction: column;
+        height: auto;
+        gap: 1rem;
+    }
+
+    .map-stage-container  { flex: none; }
+    .agent-picker-sidebar { flex: none; max-height: 380px; }
+    .map-visualizer       { min-height: 280px; max-height: 380px; }
+
+    /* Agents grid: 3 cols on tablet */
+    .agents-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 130px;
+        gap: 0.85rem;
+    }
+
+    /* --- Saved comps --- */
+    .saved-comp-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .saved-comp-card > div:last-child {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    /* --- Modals --- */
+    .modal-content {
+        margin: 1rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .share-code-modal-content { max-width: 95vw; }
+}
+
+/* ================================================
+   PHONE  (≤ 600px)
+   ================================================ */
+@media (max-width: 600px) {
+
+    /* --- Header: two rows --- */
+    .app-header {
+        padding: 0.6rem 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .app-header nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        justify-content: center;
+    }
+
+    .logo {
+        text-align: center;
+        font-size: 1.3rem;
+    }
+
+    .nav-btn {
+        font-size: 0.78rem;
+        margin-left: 0;
+        padding: 0.35rem 0.6rem;
+        border: 1px solid var(--glass-border);
+        border-radius: 6px;
+    }
+
+    .nav-btn.active {
+        border-color: var(--accent-red);
+        background: rgba(255, 70, 85, 0.1);
+    }
+
+    .user-display {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        border: none;
+        padding: 0;
+        font-size: 0.75rem;
+    }
+
+    /* Dropdown becomes full-width */
+    .nav-dropdown { width: 100%; }
+    .dropdown-toggle { width: 100%; text-align: center; }
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        border-radius: 0 0 8px 8px;
+        margin-top: 0;
+        min-width: 100%;
+    }
+
+    /* --- View sections: less padding --- */
+    .view-section { padding: 0.75rem; }
+
+    /* --- Home hero --- */
+    .hero-section { padding: 2rem 1rem; margin-bottom: 1.5rem; }
+    .hero-title { font-size: 2.8rem; }
+    .hero-subtitle { font-size: 1rem; }
+    .hero-description { font-size: 0.88rem; }
+    .features-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .feature-icon { font-size: 2.5rem; }
+    .feature-card h2 { font-size: 1.5rem; }
+    .feature-card p { font-size: 0.85rem; }
+    .feature-card { padding: 1.25rem; }
+
+    /* --- Maps grid: single column on very small, 2 col otherwise --- */
+    #maps-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+    .map-card img { height: 140px; }
+    .map-card-name { font-size: 1.1rem; }
+
+    /* --- Comp Builder header --- */
+    .map-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+    }
+
+    .map-header h2 { font-size: 1.5rem; }
+
+    .comp-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    #comp-name-input { width: 100%; }
+    .comp-stats { justify-content: center; }
+
+    /* --- Agent slots container: allow horizontal scroll on tiny screens --- */
+    .agent-slots-container {
+        gap: 0.5rem;
+        padding: 0.6rem 0.8rem;
+        max-width: calc(100vw - 2rem);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        bottom: 10px;
+    }
+
+    /* Slightly smaller slots on mobile */
+    .primary-slot { width: 52px; height: 52px; }
+    .secondary-slot { width: 36px; height: 36px; }
+    .secondary-slot-plus { font-size: 1.1rem; }
+    .agent-slot { width: 52px; }
+
+    /* --- Map visualizer -- slightly shorter --- */
+    .map-visualizer { min-height: 220px; max-height: 300px; }
+
+    /* --- Agents grid: 2 cols, shorter cards --- */
+    .agents-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 110px;
+        gap: 0.6rem;
+    }
+
+    .agent-card-name { font-size: 0.9rem; }
+
+    /* Always show agent names on mobile (no hover) */
+    @media (hover: none) {
+        .agent-card-name { transform: translateY(0); }
+    }
+
+    /* --- Agent picker sidebar: horizontal scroll for roles --- */
+    .role-filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        padding-bottom: 0.35rem;
+    }
+    .role-filter { flex-shrink: 0; }
+
+    /* --- Strategy notes --- */
+    .strat-notes textarea { min-height: 80px; }
+
+    /* --- Saved comps --- */
+    .saved-comp-card { border-left: none; border-top: 4px solid var(--accent-red); }
+    .saved-comp-info h4 { font-size: 0.95rem; }
+    .mini-slot { width: 26px; height: 26px; }
+
+    /* --- Modals: full-screen on phones --- */
+    .modal {
+        align-items: flex-end; /* slide up from bottom */
+        padding: 0;
+    }
+
+    .modal-content {
+        margin: 0;
+        border-radius: 20px 20px 0 0;
+        max-height: 90vh;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    .share-code-modal-content,
+    .shared-comp-preview-content { padding: 1.5rem 1rem; }
+
+    /* Keep the share link text from overflowing */
+    .share-link-text { font-size: 0.72rem; }
+
+    /* --- Map Ban --- */
+    .mapban-setup h2 { font-size: 1.8rem; }
+    .setup-card { padding: 1.25rem; }
+    .ban-type-btn { padding: 0.75rem 1.25rem; font-size: 0.85rem; }
+    .bestof-btn   { padding: 0.75rem 1rem; }
+
+    /* --- Roster --- */
+    .roster-container { padding: 0.75rem; }
+
+    /* --- Toast: full-width at bottom --- */
+    .toast-container {
+        top: auto;
+        bottom: 16px;
+        right: 0;
+        left: 0;
+        align-items: center;
+        padding: 0 1rem;
+    }
+
+    .toast {
+        min-width: unset;
+        width: 100%;
+        max-width: 480px;
+    }
+}
+
+/* ================================================
+   TINY PHONES  (≤ 380px)
+   ================================================ */
+@media (max-width: 380px) {
+    .hero-title { font-size: 2.2rem; }
+    .agents-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 95px;
+    }
+    .primary-slot  { width: 44px; height: 44px; }
+    .secondary-slot { width: 30px; height: 30px; }
+    .agent-slot { width: 44px; }
+}
