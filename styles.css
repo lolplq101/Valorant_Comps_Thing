@@ -214,6 +214,12 @@ h1, h2, h3, h4, button {
     text-align: center;
     padding: 5rem 2rem 4rem;
     background:
+        /* Mouse-tracking spotlight — updated by JS */
+        radial-gradient(
+            circle 500px at var(--mx, 50%) var(--my, 50%),
+            rgba(255, 70, 85, 0.07) 0%,
+            transparent 70%
+        ),
         linear-gradient(160deg,
             rgba(255, 70, 85, 0.08) 0%,
             rgba(13, 17, 23, 0)     40%,
@@ -223,6 +229,7 @@ h1, h2, h3, h4, button {
     margin-bottom: 3rem;
     position: relative;
     overflow: hidden;
+    transition: background 0.1s ease; /* smooth trailing */
 }
 
 /* Diagonal grid accent lines */

@@ -504,5 +504,28 @@
     </div>
 
 
+<!-- Hero spotlight effect -->
+<script>
+(function () {
+    const hero = document.querySelector('.hero-section');
+    if (!hero) return;
+    let raf;
+    hero.addEventListener('mousemove', (e) => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+            const rect = hero.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(2);
+            const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(2);
+            hero.style.setProperty('--mx', x + '%');
+            hero.style.setProperty('--my', y + '%');
+        });
+    });
+    hero.addEventListener('mouseleave', () => {
+        // Smoothly drift back to centre
+        hero.style.setProperty('--mx', '50%');
+        hero.style.setProperty('--my', '50%');
+    });
+})();
+</script>
 </body>
 </html>
