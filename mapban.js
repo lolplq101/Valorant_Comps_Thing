@@ -246,7 +246,7 @@ function performCoinFlip(call) {
         mapBanEls.resultText.textContent = `Result: ${result.toUpperCase()}! ${winnerName} wins the toss!`;
         mapBanEls.winnerText.textContent = `${winnerName} chooses:`;
         mapBanEls.coinTossResult.classList.remove('hidden');
-    }, 1000);
+    }, 1100);
 }
 
 function setupBanSequence(goFirst) {
