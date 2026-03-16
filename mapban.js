@@ -460,8 +460,10 @@ function advanceTurn() {
         mapBanState.currentTurn = nextStep.team;
         updateTurnIndicator();
     } else {
-        // Ban phase complete
-        mapBanEls.turnIndicator.innerHTML = '<span style="color: #00ff00;">Map Ban Complete!</span>';
+        // Ban phase complete — update spans directly, no innerHTML replace
+        mapBanEls.currentTurnTeam.textContent = '✓';
+        mapBanEls.currentAction.textContent = 'Map Ban Complete!';
+        mapBanEls.currentAction.style.color = '#50e3c2';
     }
 }
 
@@ -521,10 +523,12 @@ function resetMapBan() {
     mapBanEls.headsTailsChoice.classList.add('hidden');
     mapBanEls.coinTossResult.classList.add('hidden');
     
-    // Reset turn indicator (clear completion message)
-    mapBanEls.currentTurnTeam.textContent = 'Team A';
+    // Reset turn indicator — update spans directly (never replace innerHTML or
+    // mapBanEls.currentTurnTeam / currentAction will point to orphaned nodes)
+    mapBanEls.currentTurnTeam.textContent = mapBanState.teamA || 'Team A';
     mapBanEls.currentAction.textContent = 'Ban';
-    mapBanEls.turnIndicator.innerHTML = `<span id="current-turn-team">Team A</span>'s Turn: <span id="current-action">Ban</span>`;
+    mapBanEls.currentAction.style.color = '';
+
     
     // Clear map grid completely
     mapBanEls.mapBanGrid.innerHTML = '';
