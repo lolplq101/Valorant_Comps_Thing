@@ -710,9 +710,11 @@ function triggerAiDecision(step) {
         
         let pool = [];
         if (step.type === 'ban') {
-            pool = availableMaps.filter(m => mapBanState.aiWeakMaps.includes(m));
-        } else if (step.type === 'pick') {
+            // AI bans the player's strong maps
             pool = availableMaps.filter(m => mapBanState.aiStrongMaps.includes(m));
+        } else if (step.type === 'pick') {
+            // AI picks the player's weak maps
+            pool = availableMaps.filter(m => mapBanState.aiWeakMaps.includes(m));
         }
         
         if (pool.length === 0) {
