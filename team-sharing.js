@@ -45,6 +45,7 @@ async function shareComp(compDocId) {
             name: comp.name || 'Untitled Comp',
             mapId: comp.mapId,
             agents: comp.agents,
+            secondaryAgents: comp.secondaryAgents || [null, null, null, null, null],
             notes: comp.notes || '',
             ownerUid: state.user.uid,
             ownerName: state.user.displayName || 'Anonymous',
@@ -110,6 +111,7 @@ function loadSharedCompIntoBuilder() {
     closeSharedCompPreview();
     openBuilder(map);
     state.currentComp = [...(data.agents || [null, null, null, null, null])];
+    state.secondaryComp = [...(data.secondaryAgents || [null, null, null, null, null])];
     renderSlots();
     showToast('Shared comp loaded into builder!', 'success');
 }

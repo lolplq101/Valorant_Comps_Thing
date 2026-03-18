@@ -347,7 +347,8 @@ async function saveCurrentComp() {
         mapId: state.currentMap.uuid,
         name: name,
         notes: notes,
-        agents: [...state.currentComp]
+        agents: [...state.currentComp],
+        secondaryAgents: [...state.secondaryComp]
     };
     
     try {
@@ -802,7 +803,8 @@ function loadComp(comp) {
     
     openBuilder(map);
     state.currentComp = [...comp.agents];
-    els.compNameInput.value = comp.name;
+    state.secondaryComp = comp.secondaryAgents ? [...comp.secondaryAgents] : [null, null, null, null, null];
+    els.compNameInput.value = comp.name || '';
     els.stratNotesInput.value = comp.notes || '';
     renderSlots();
 }
