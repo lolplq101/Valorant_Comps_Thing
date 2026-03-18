@@ -486,7 +486,7 @@ function showTurnAnnouncer(teamName, action, teamIndex) {
     const teamColor = teamIndex === 0 ? 'var(--accent-red)' : '#50e3c2';
     mapBanEls.turnAnnouncerTeam.style.color = teamColor;
     mapBanEls.turnAnnouncerTeam.textContent = teamName;
-    mapBanEls.turnAnnouncerAction.textContent = `is ${action}ning`;
+    mapBanEls.turnAnnouncerAction.textContent = `IS ${action === 'Ban' ? 'BANNING' : 'PICKING'}`;
     
     // Show overlay
     mapBanEls.turnAnnouncer.classList.remove('hidden');
