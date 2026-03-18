@@ -913,3 +913,55 @@
     color: var(--text-secondary);
     text-transform: uppercase;
 }
+
+/* ==== AI Setup Configuration ==== */
+.ai-toggle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-instruction {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.ai-instruction span.strong { color: #50e3c2; font-weight: 700; }
+.ai-instruction span.weak { color: var(--accent-red); font-weight: 700; }
+
+.ai-map-btn {
+    padding: 0.75rem 1rem;
+    background: rgba(0,0,0,0.3);
+    border: 2px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.ai-map-btn:hover {
+    background: var(--glass-bg);
+}
+
+.ai-map-btn.strong {
+    border-color: #50e3c2;
+    background: rgba(80, 227, 194, 0.15);
+}
+
+.ai-map-btn.weak {
+    border-color: var(--accent-red);
+    background: rgba(255, 70, 85, 0.15);
+}
+
+/* Custom Checkbox Toggle */
+.switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--glass-bg); transition: .4s; border-radius: 34px; border: 1px solid var(--glass-border); }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: var(--text-secondary); transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: rgba(255, 70, 85, 0.2); border-color: var(--accent-red); }
+input:checked + .slider:before { transform: translateX(24px); background-color: var(--accent-red); }

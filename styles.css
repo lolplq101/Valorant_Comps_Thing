@@ -33,6 +33,52 @@
     --card-4: #7b61ff;  /* purple — Strat Board */
 }
 
+/* ---- Site Update Banner ---- */
+.site-update-banner {
+    background: linear-gradient(90deg, #1f2326 0%, #0f1923 100%);
+    border-bottom: 2px solid var(--accent-red);
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    z-index: 9999;
+    position: relative;
+    width: 100%;
+}
+
+.site-update-banner .update-badge {
+    background: var(--accent-red);
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    letter-spacing: 0.05em;
+}
+
+.site-update-banner .update-text {
+    color: var(--text-primary);
+}
+
+.site-update-banner .update-time {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    font-family: monospace;
+}
+
+@media (max-width: 768px) {
+    .site-update-banner {
+        flex-direction: column;
+        gap: 0.25rem;
+        text-align: center;
+        padding: 0.75rem;
+    }
+}
+
 * {
     box-sizing: border-box;
     margin: 0;

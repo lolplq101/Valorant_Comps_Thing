@@ -23,6 +23,13 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2858798741280464" crossorigin="anonymous"></script>
 </head>
 <body>
+    <!-- Site Update Banner -->
+    <div class="site-update-banner">
+        <span class="update-badge">NEW</span>
+        <span class="update-text">Play against our new AI Opponent in Map Bans to stress-test your drafting strategies!</span>
+        <span class="update-time">Mar 18, 2026 | 18:50 GMT</span>
+    </div>
+
     <div id="app">
         <header class="app-header">
             <!-- Home icon — left side -->
@@ -301,6 +308,23 @@
                         <h3>Select Maps for Custom Pool</h3>
                         <div id="custom-maps-grid" class="custom-maps-grid">
                             <!-- Custom map checkboxes -->
+                        </div>
+                    </div>
+
+                    <div id="ai-setup-card" class="setup-card">
+                        <div class="ai-toggle-header">
+                            <h3>Play against AI Opponent</h3>
+                            <label class="switch">
+                                <input type="checkbox" id="ai-opponent-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        
+                        <div id="ai-preferences-panel" class="hidden">
+                            <p class="ai-instruction">Click maps to cycle AI preference: <span>Neutral</span> → <span class="strong">Strong (Pick)</span> → <span class="weak">Weak (Ban)</span></p>
+                            <div id="ai-maps-grid" class="custom-maps-grid">
+                                <!-- Populated dynamically by mapban.js based on available maps -->
+                            </div>
                         </div>
                     </div>
 

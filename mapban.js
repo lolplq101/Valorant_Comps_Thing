@@ -15,7 +15,12 @@ const mapBanState = {
     mapStates: {}, // {mapId: {status: 'available'|'banned'|'picked', team: 0|1, side: 'attack'|'defense'}}
     availableMaps: [],
     competitiveMaps: ['Bind', 'Breeze', 'Fracture', 'Haven', 'Lotus', 'Pearl', 'Split'], // Common comp pool
-    coinHistory: [] // Track last 10 flips for balancing
+    coinHistory: [], // Track last 10 flips for balancing
+    
+    // AI Opponent features
+    isAiOpponent: false,
+    aiStrongMaps: [],
+    aiWeakMaps: []
 };
 
 // Map Ban DOM Elements
@@ -28,6 +33,12 @@ const mapBanEls = {
     banTypeBtns: document.querySelectorAll('.ban-type-btn'),
     customMapSelector: document.getElementById('custom-map-selector'),
     customMapsGrid: document.getElementById('custom-maps-grid'),
+    
+    // AI Configuration
+    aiOpponentToggle: document.getElementById('ai-opponent-toggle'),
+    aiPreferencesPanel: document.getElementById('ai-preferences-panel'),
+    aiMapsGrid: document.getElementById('ai-maps-grid'),
+    
     teamANameInput: document.getElementById('team-a-name'),
     teamBNameInput: document.getElementById('team-b-name'),
     startBanBtn: document.getElementById('start-ban-btn'),
@@ -96,6 +107,20 @@ function initMapBan() {
         };
     });
     
+    // AI Toggle
+    mapBanEls.aiOpponentToggle.onchange = (e) => {
+        mapBanState.isAiOpponent = e.target.checked;
+        if (mapBanState.isAiOpponent) {
+            mapBanEls.aiPreferencesPanel.classList.remove('hidden');
+            renderAiPreferencesGrid();
+        } else {
+            mapBanEls.aiPreferencesPanel.classList.add('hidden');
+            // reset pools if disabled to be safe
+            mapBanState.aiStrongMaps = [];
+            mapBanState.aiWeakMaps = [];
+        }
+    };
+    
     mapBanEls.startBanBtn.onclick = startMapBanProcess;
     
     // Coin toss
@@ -147,6 +172,42 @@ function renderCustomMapSelector() {
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(map.displayName));
         mapBanEls.customMapsGrid.appendChild(label);
+    });
+}
+
+function renderAiPreferencesGrid() {
+    mapBanEls.aiMapsGrid.innerHTML = '';
+    state.maps.forEach(map => {
+        const btn = document.createElement('button');
+        btn.className = 'ai-map-btn';
+        btn.innerText = map.displayName;
+        
+        // Initial state
+        if (mapBanState.aiStrongMaps.includes(map.displayName)) {
+            btn.classList.add('strong');
+        } else if (mapBanState.aiWeakMaps.includes(map.displayName)) {
+            btn.classList.add('weak');
+        }
+        
+        btn.onclick = () => {
+            if (btn.classList.contains('strong')) {
+                // Strong -> Weak
+                btn.classList.remove('strong');
+                btn.classList.add('weak');
+                mapBanState.aiStrongMaps = mapBanState.aiStrongMaps.filter(m => m !== map.displayName);
+                mapBanState.aiWeakMaps.push(map.displayName);
+            } else if (btn.classList.contains('weak')) {
+                // Weak -> Neutral
+                btn.classList.remove('weak');
+                mapBanState.aiWeakMaps = mapBanState.aiWeakMaps.filter(m => m !== map.displayName);
+            } else {
+                // Neutral -> Strong
+                btn.classList.add('strong');
+                mapBanState.aiStrongMaps.push(map.displayName);
+            }
+        };
+        
+        mapBanEls.aiMapsGrid.appendChild(btn);
     });
 }
 
@@ -409,7 +470,11 @@ function renderMapBanGrid() {
     });
 }
 
-function handleMapSelection(mapName) {
+function handleMapSelection(mapName, isAiCall = false) {
+    if (mapBanState.isAiOpponent && mapBanState.currentTurn === 1 && !isAiCall) {
+        return; // Ignore user clicks during AI's turn
+    }
+
     const currentStep = mapBanState.banSequence[getCurrentStepIndex()];
     if (!currentStep) return;
     
@@ -422,10 +487,20 @@ function handleMapSelection(mapName) {
         const opposingTeam = mapBanState.currentTurn === 0 ? 1 : 0;
         const opposingTeamName = opposingTeam === 0 ? mapBanState.teamA : mapBanState.teamB;
         
+        mapBanEls.sideModal.dataset.mapName = mapName;
+        
+        if (mapBanState.isAiOpponent && opposingTeam === 1) {
+            // AI automatically picks a random side
+            setTimeout(() => {
+                const sides = ['attack', 'defense'];
+                selectSide(sides[Math.floor(Math.random() * sides.length)]);
+            }, 500);
+            return;
+        }
+        
         mapBanEls.pickedMapName.textContent = mapName;
         mapBanEls.sideSelectTitle.innerHTML = `${opposingTeamName} chooses side for <span id="picked-map-name">${mapName}</span>`;
         mapBanEls.sideModal.classList.remove('hidden');
-        mapBanEls.sideModal.dataset.mapName = mapName;
     } else {
         advanceTurn();
         renderMapBanGrid();
@@ -458,6 +533,10 @@ function advanceTurn() {
     if (nextStep) {
         mapBanState.currentTurn = nextStep.team;
         updateTurnIndicator();
+        
+        if (mapBanState.isAiOpponent && mapBanState.currentTurn === 1) {
+            triggerAiDecision(nextStep);
+        }
     } else {
         // Ban phase complete — update spans directly, no innerHTML replace
         mapBanEls.currentTurnTeam.textContent = '✓';
@@ -622,6 +701,28 @@ function fillSlot(slot, mapName, type, team) {
         ${sideText}
         <div class="slot-icon ${type}">${type === 'ban' ? '✕' : (type === 'pick' ? '✓' : '★')}</div>
     `;
+}
+
+function triggerAiDecision(step) {
+    setTimeout(() => {
+        const availableMaps = Object.keys(mapBanState.mapStates).filter(m => mapBanState.mapStates[m].status === 'available');
+        if (availableMaps.length === 0) return;
+        
+        let pool = [];
+        if (step.type === 'ban') {
+            pool = availableMaps.filter(m => mapBanState.aiWeakMaps.includes(m));
+        } else if (step.type === 'pick') {
+            pool = availableMaps.filter(m => mapBanState.aiStrongMaps.includes(m));
+        }
+        
+        if (pool.length === 0) {
+            pool = availableMaps; // Fallback to completely random from available
+        }
+        
+        const selectedMap = pool[Math.floor(Math.random() * pool.length)];
+        handleMapSelection(selectedMap, true);
+        
+    }, 1500);
 }
 
 function resetMapBan() {
