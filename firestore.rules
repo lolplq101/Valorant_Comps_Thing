@@ -2,7 +2,7 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // 1. User Profiles & Private Data (Comps, Roster, Premier links)
+    // 1. User Profiles & Private Data (Comps, Roster)
     // Only the logged-in user can read or overwrite their own data
     match /users/{userId}/{document=**} {
       allow read, write: if request.auth != null && request.auth.uid == userId;

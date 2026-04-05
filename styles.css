@@ -1208,29 +1208,7 @@ input[type="text"]:focus, textarea:focus {
     }
 }
 
-/* Theoretical Agent Badges */
-.theoretical-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #7b61ff;
-    color: white;
-    font-size: 0.6rem;
-    font-weight: bold;
-    padding: 2px 4px;
-    border-radius: 4px;
-    z-index: 10;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
 
-.agent-card-picker {
-    position: relative;
-}
-
-.agent-card-picker.is-theoretical {
-    border-color: #7b61ff;
-    box-shadow: 0 0 10px rgba(123, 97, 255, 0.2);
-}
 
 /* AI Coaching Alerts */
 .ai-coach-alerts {

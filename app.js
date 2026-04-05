@@ -56,10 +56,7 @@ const agentCosts = {
     "Deadlock": { credits: 700, orbs: 7 },
     "Iso": { credits: 500, orbs: 7 },
     "Clove": { credits: 600, orbs: 8 },
-    "Vyse": { credits: 500, orbs: 8 },
-    "Tejo": { credits: 750, orbs: 9 },
-    "Waylay": { credits: 600, orbs: 8 },
-    "Veto": { credits: 600, orbs: 7 }
+    "Vyse": { credits: 500, orbs: 8 }
 };
 
 // Agent Attributes System
@@ -87,8 +84,6 @@ const agentAttributes = {
     "KAY/O": ["Flash", "Molly", "Suppress", "Revive"],
     "Fade": ["Recon", "Slow", "Debuff"],
     "Gekko": ["Flash", "Stun", "Recon"],
-    "Tejo": ["Flash", "Damage", "Stun"],
-    "Waylay": ["Trap", "Slow", "Recon"],
     
     // Duelists
     "Phoenix": ["Flash", "Molly", "Wall", "Heal", "Revive"],
@@ -97,8 +92,7 @@ const agentAttributes = {
     "Raze": ["Damage", "Mobility"],
     "Yoru": ["Flash", "Teleport", "Recon", "Debuff"],
     "Neon": ["Wall", "Stun", "Mobility"],
-    "Iso": ["Wall", "Debuff", "Suppress"],
-    "Veto": ["Flash", "Damage", "Mobility"]
+    "Iso": ["Wall", "Debuff", "Suppress"]
 };
 
 // Expose state globally for mapban.js
@@ -322,43 +316,6 @@ async function fetchAgents() {
     state.agents = data.data;
     state.agents = state.agents.filter(a => a.role != null);
     
-    // Inject V25 Theoretical Agents from Audit
-    const theoreticalAgents = [
-        {
-            uuid: "v25-veto",
-            displayName: "Veto",
-            description: "Nullifies enemy powers and technology via Interceptor and Chokehold.",
-            isTheoretical: true,
-            displayIcon: "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/displayicon.png", // reusing Omen icon for now
-            role: { displayName: "Sentinel" }
-        },
-        {
-            uuid: "v25-miks",
-            displayName: "Miks",
-            description: "Sound-based deafening smokes and healing.",
-            isTheoretical: true,
-            displayIcon: "https://media.valorant-api.com/agents/41fb69c1-4189-7b37-f117-bcaf1e96f1bf/displayicon.png", // Astra icon
-            role: { displayName: "Controller" }
-        },
-        {
-            uuid: "v25-tejo",
-            displayName: "Tejo",
-            description: "Area denial via a damaging rectangle ultimate.",
-            isTheoretical: true,
-            displayIcon: "https://media.valorant-api.com/agents/5f8d3a7f-467b-97f3-062c-13acf203c006/displayicon.png", // Breach icon
-            role: { displayName: "Initiator" }
-        },
-        {
-            uuid: "v25-waylay",
-            displayName: "Waylay",
-            description: "Movement and light-based utility; stunning ultimates.",
-            isTheoretical: true,
-            displayIcon: "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/displayicon.png", // Phoenix icon
-            role: { displayName: "Duelist" }
-        }
-    ];
-    
-    state.agents = [...state.agents, ...theoreticalAgents];
     state.agents.sort((a, b) => a.displayName.localeCompare(b.displayName));
 }
 
@@ -499,15 +456,6 @@ function renderAgentsPicker() {
         };
         
         div.onclick = () => addToFirstEmptySlot(agent.uuid);
-
-        if (agent.isTheoretical) {
-            const badge = document.createElement('div');
-            badge.className = 'theoretical-badge';
-            badge.innerText = 'V25';
-            badge.title = 'Theoretical V25 Meta Agent';
-            div.appendChild(badge);
-            div.classList.add('is-theoretical');
-        }
 
         const img = document.createElement('img');
         img.src = agent.displayIcon;
@@ -935,7 +883,7 @@ function switchView(viewName) {
 // Expose switchView globally for mapban.js
 window.switchView = switchView;
 
-// Expose for team-sharing.js and premier.js
+// Expose for team-sharing.js
 window.state = state;
 window.openBuilder = openBuilder;
 window.renderSlots = renderSlots;
