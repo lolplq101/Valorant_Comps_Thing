@@ -437,6 +437,10 @@ function renderMapBanGrid() {
         const img = document.createElement('img');
         img.src = mapData.splash;
         img.alt = mapName;
+        img.loading = 'lazy';
+        
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `Select Map: ${mapName}. Current status: ${mapState.status}`);
         
         const name = document.createElement('div');
         name.className = 'mapban-card-name';

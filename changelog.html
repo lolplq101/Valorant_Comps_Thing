@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - Valostrats.gg</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .page-content { max-width: 900px; margin: 4rem auto; padding: 2rem; }
+        .page-content h1 { font-size: 3.5rem; color: var(--accent-red); margin-bottom: 0.5rem; text-transform: uppercase; }
+        .page-subtitle { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 3rem; letter-spacing: 0.05em; }
+        
+        .timeline { margin-top: 2rem; position: relative; padding-left: 20px; border-left: 2px solid var(--border-subtle); }
+        .timeline-item { position: relative; padding-bottom: 2rem; margin-bottom: 1rem; }
+        .timeline-item::before { content: ''; position: absolute; left: -26px; top: 0; width: 10px; height: 10px; background: var(--accent-red); border-radius: 50%; box-shadow: 0 0 0 4px var(--bg-primary); }
+        
+        .timeline-date { font-weight: bold; color: #50e3c2; margin-bottom: 0.5rem; display: block; }
+        .timeline-title { font-size: 1.5rem; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .timeline-content { color: var(--text-secondary); line-height: 1.6; }
+        .timeline-content ul { padding-left: 1.5rem; margin-top: 0.5rem; }
+        .timeline-content li { margin-bottom: 0.25rem; }
+        
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h1 class="logo">VALO<span>STRATS.GG</span></h1>
+        <nav>
+            <button class="nav-btn" onclick="window.location.href='index.html'">Back to Home</button>
+            <button class="nav-btn primary-btn active" onclick="window.location.href='changelog.html'">Changelog</button>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <h1>Changelog & Updates</h1>
+        <p class="page-subtitle">Track the latest features, bug fixes, and meta updates rolled out to Valostrats.gg.</p>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="timeline-date">April 6, 2026</span>
+                <h2 class="timeline-title">Audit Fixes: Performance & UX Overhaul</h2>
+                <div class="timeline-content">
+                    <p>Major infrastructure and usability updates based on a comprehensive platform audit.</p>
+                    <ul>
+                        <li><strong>Performance:</strong> Deferred non-critical JavaScript and added lazy loading for high-resolution map assets to significantly reduce Total Blocking Time (TBT).</li>
+                        <li><strong>Accessibility:</strong> Added extensive ARIA labels across Strat Board and Map Ban cards for assistive technology support.</li>
+                        <li><strong>V25 Clarity:</strong> Added clear UI badges to "Theoretical V25 Meta" agents (Veto, Miks, Tejo, Waylay) so players know they are speculative concepts and not yet in the live game.</li>
+                        <li><strong>Fixes:</strong> Resolved broken routing to the Strat Tools and Meta Report. Added this official Changelog page!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-date">March 18, 2026</span>
+                <h2 class="timeline-title">AI Map Ban Opponent</h2>
+                <div class="timeline-content">
+                    <p>Added a new AI feature to the Draft block.</p>
+                    <ul>
+                        <li>Simulate a live Map Ban draft against an automated opponent.</li>
+                        <li>Set the AI's logic to target your specific "Strong" or "Weak" maps to practice difficult Veto scenarios.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <span class="timeline-date">March 1, 2026</span>
+                <h2 class="timeline-title">Responsive Strat Board & Sharing</h2>
+                <div class="timeline-content">
+                    <p>Expanded the Strat Board utility significantly.</p>
+                    <ul>
+                        <li>Interactive tactical canvas for dragging and dropping agents.</li>
+                        <li>Generate 4-character share codes for your active composition.</li>
+                        <li>Basic roster tracking integration.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div class="footer-left">
+                <p>&copy; 2026 Valostrats.gg</p>
+                <p style="font-size: 0.8rem; color: #888;">Not affiliated with Riot Games.</p>
+            </div>
+            <div class="footer-right">
+                <a href="privacy.html" style="color: #ccc; margin-right: 1rem; text-decoration: none;">Privacy Policy</a>
+                <a href="terms.html" style="color: #ccc; margin-right: 1rem; text-decoration: none;">Terms of Service</a>
+                <a href="about.html" style="color: #ccc; margin-right: 1rem; text-decoration: none;">About</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1208,3 +1208,62 @@ input[type="text"]:focus, textarea:focus {
     }
 }
 
+/* Theoretical Agent Badges */
+.theoretical-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #7b61ff;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 4px;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.agent-card-picker {
+    position: relative;
+}
+
+.agent-card-picker.is-theoretical {
+    border-color: #7b61ff;
+    box-shadow: 0 0 10px rgba(123, 97, 255, 0.2);
+}
+
+/* AI Coaching Alerts */
+.ai-coach-alerts {
+    margin: 1rem 0;
+}
+
+.ai-coach-box {
+    background: rgba(255, 70, 85, 0.1);
+    border-left: 4px solid var(--accent-red);
+    padding: 1rem;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.ai-coach-box strong {
+    color: var(--accent-red);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.ai-coach-alert-item {
+    margin-top: 0.5rem;
+}
+
+.ai-coach-good {
+    background: rgba(80, 227, 194, 0.1);
+    border-left-color: #50e3c2;
+}
+
+.ai-coach-good strong {
+    color: #50e3c2;
+}
+

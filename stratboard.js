@@ -164,6 +164,19 @@ function drawStroke(c, s) {
         c.beginPath(); c.moveTo(s.points[0].x, s.points[0].y);
         s.points.slice(1).forEach(p => c.lineTo(p.x, p.y));
         c.stroke();
+    } else if (s.type === 'zone') {
+        if (s.points.length > 0) {
+            const p0 = s.points[0], p1 = s.points[s.points.length - 1];
+            const radius = Math.hypot(p1.x - p0.x, p1.y - p0.y);
+            c.beginPath();
+            c.arc(p0.x, p0.y, radius, 0, Math.PI * 2);
+            c.save();
+            c.globalAlpha = 0.25;
+            c.fillStyle = s.color;
+            c.fill();
+            c.restore();
+            c.stroke();
+        }
     }
     c.restore();
 }
@@ -260,9 +273,12 @@ function buildAgentTray() {
         div.className = 'tray-agent-token' + (t.placed ? ' placed' : '');
         div.title = t.displayName;
         div.dataset.index = i;
+        div.setAttribute('role', 'button');
+        div.setAttribute('aria-label', `Drag Agent ${t.displayName}`);
         const img = document.createElement('img');
         img.src = t.displayIcon;
         img.alt = t.displayName;
+        img.loading = 'lazy';
         div.appendChild(img);
         div.addEventListener('mousedown', e => {
             if (t.placed) return;
@@ -391,9 +407,11 @@ function onPointerDown(e) {
         return;
     }
 
-    if (tool === 'arrow' && stratState.activeDrag) return;
+    if ((tool === 'arrow' || tool === 'zone') && stratState.activeDrag) return;
     stratState.drawing = true;
-    stratState.currentStroke = { type: tool==='pen'?'pen':'arrow', color:stratState.color, width:stratState.lineWidth, points:[pt] };
+    let strokeType = tool;
+    if (tool !== 'pen' && tool !== 'arrow' && tool !== 'zone') strokeType = 'pen';
+    stratState.currentStroke = { type: strokeType, color:stratState.color, width:stratState.lineWidth, points:[pt] };
 }
 
 function onPointerMove(e) {
@@ -593,6 +611,7 @@ function setTool(tool) {
     canvas.className = '';
     if (tool==='select')  canvas.classList.add('tool-select');
     else if (tool==='pen') canvas.classList.add('tool-pen');
+    else if (tool==='zone') canvas.classList.add('tool-zone');
     else if (tool==='eraser') canvas.classList.add('tool-eraser');
     else if (tool==='label') canvas.classList.add('tool-label');
     else canvas.classList.add('tool-arrow');
@@ -679,7 +698,7 @@ async function initStratBoard() {
     document.getElementById('side-defence-btn')?.addEventListener('click', () => { stratState.side='defence'; updateSideUI(); });
 
     // Tool buttons
-    ['arrow','pen','eraser','label','select'].forEach(t => {
+    ['arrow','pen','zone','eraser','label','select'].forEach(t => {
         document.getElementById(`tool-${t}`)?.addEventListener('click', () => setTool(t));
     });
 

@@ -159,6 +159,8 @@
                             </div>
                         </div>
                         
+                        <div id="ai-coach-alerts" class="ai-coach-alerts"></div>
+                        
                         <div class="map-visualizer" id="map-visualizer">
                             <!-- Map Image Background -->
                             <img id="map-image" src="" alt="Map View" />
@@ -222,6 +224,7 @@
                         <button id="tool-arrow"  class="tool-btn active" title="Arrow">↗</button>
                         <button id="tool-pen"    class="tool-btn"        title="Freehand">✏️</button>
                         <button id="tool-label"  class="tool-btn"        title="Text Label">T</button>
+                        <button id="tool-zone"   class="tool-btn"        title="Ability / Buff Zone">⭕</button>
                         <button id="tool-eraser" class="tool-btn"        title="Eraser">⌫</button>
                         <button id="tool-select" class="tool-btn"        title="Select / Move">↖</button>
                     </div>
@@ -543,10 +546,11 @@
             query, orderBy, where, setDoc, getDoc, deleteField
         };
     </script>
-    <script src="mapban.js"></script>
-    <script src="roster.js"></script>
-    <script src="team-sharing.js"></script>
-    <script src="stratboard.js"></script>
+    <script src="mapban.js" defer></script>
+    <script src="roster.js" defer></script>
+    <script src="team-sharing.js" defer></script>
+    <script src="stratboard.js" defer></script>
+    <script src="comp-coach.js" defer></script>
     <script src="app.js" type="module"></script>
 
     <!-- Share Code Modal -->
