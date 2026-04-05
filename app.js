@@ -426,6 +426,23 @@ function renderMaps() {
         img.src = map.splash; // Use high-quality splash image
         img.alt = map.displayName;
         img.loading = 'lazy';
+
+        // Fallback for maps whose splash art isn't on the CDN yet (e.g. Corrode)
+        img.onerror = () => {
+            img.onerror = null; // prevent infinite loop
+            card.classList.add('map-card--no-splash');
+            if (map.displayIcon) {
+                img.src = map.displayIcon;
+                img.classList.add('map-card-icon-fallback');
+            } else {
+                img.style.display = 'none';
+            }
+            // Add a "Coming Soon" badge
+            const badge = document.createElement('div');
+            badge.className = 'map-coming-soon-badge';
+            badge.textContent = 'NEW MAP';
+            card.insertBefore(badge, name);
+        };
         
         const name = document.createElement('div');
         name.className = 'map-card-name';

@@ -275,6 +275,45 @@ h1, h2, h3, h4, button {
     transform: translateX(0);
 }
 
+/* ===== MAP CARD — NO SPLASH FALLBACK (e.g. Corrode before CDN assets release) ===== */
+.map-card--no-splash {
+    background: linear-gradient(135deg, #1a1f2e 0%, #0d1117 100%);
+}
+
+.map-card--no-splash .map-card-icon-fallback {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: contain !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: brightness(0.9) !important;
+    opacity: 0.85;
+}
+
+.map-coming-soon-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, var(--accent-red), #c7303d);
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(255, 70, 85, 0.5);
+    animation: pulse-badge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+    0%, 100% { box-shadow: 0 2px 8px rgba(255, 70, 85, 0.5); }
+    50% { box-shadow: 0 2px 20px rgba(255, 70, 85, 0.85); }
+}
+
 /* ===== HOME SCREEN ===== */
 .hero-section {
     text-align: center;
